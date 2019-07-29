@@ -3,4 +3,4 @@ require_relative '../config/environment'
 test = "test"
 
 
-puts "HELLO WORLD"
+puts "GOODBYE WORLD"
