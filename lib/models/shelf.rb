@@ -1,7 +1,7 @@
 class Shelf < ActiveRecord::Base
     belongs_to :user
-    has_many :sbjoins
-    has_many :books, through: :sbjoins
+    has_many :shelfjoins
+    has_many :books, through: :shelfjoins
 
 
     #methods to build:
@@ -13,6 +13,7 @@ class Shelf < ActiveRecord::Base
 
     def rename(name)
         self.name = name
+        self.save
     end
 
     def authors
@@ -23,13 +24,18 @@ class Shelf < ActiveRecord::Base
     end
 
     def add_book(book)#accepts a book instance
-        SBJoin.new(shelf_id: self, book_id: book)#TODO is .id needed here?
+        newjoin = Shelfjoin.new(shelf_id: self.id, book_id: book.id)
+        book.shelfjoins << newjoin
+        self.shelfjoins << newjoin
+        #if no result, Book.create_from_api
+        #if can't find in Google's database, return a message saying so
     end
 
     def add_book_by_name(book_name)
         #find or create book by name
         Book.all.find_by name: book_name
         #if no result, Book.create_from_api
+        #if can't find in Google's database, return a message saying so
         #call add_book
     end
     

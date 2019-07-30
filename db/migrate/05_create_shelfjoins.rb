@@ -1,6 +1,6 @@
-class CreateSBJoins < ActiveRecord::Migration[5.2]
+class CreateShelfjoins < ActiveRecord::Migration[5.2]
     def change
-        create_table :sbjoins do |t|
+        create_table :shelfjoins do |t|
             t.integer :shelf_id
             t.integer :book_id
         end

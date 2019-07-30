@@ -5,7 +5,7 @@ class Author < ActiveRecord::Base
         self.books.length
     end
 
-    def number_of_shelves_author_appears_on
+    def number_of_shelves #number of shelves the author appears on
         collections = Shelf.all.map do |shelf|
         shelf.books
         end #getting an array of shelves where each shelf is an array of books
@@ -13,6 +13,9 @@ class Author < ActiveRecord::Base
             collection.any?{ |book| book.author == self}
         end #keeping only those collections which contain one of the author's books
         relevant_collections.length
+    end
+
+    def number_of_users #number of users who have this author on their shelves
     end
 
     #methods to build

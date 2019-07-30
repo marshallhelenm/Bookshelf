@@ -4,7 +4,7 @@ class CreateShelves < ActiveRecord::Migration[5.2]
             t.string :name
             t.text :description
             t.integer :user_id
-            #shoud description be optional (null by default)
+            #should description be optional (null by default)? is it automatically so?
         end
     end
 end

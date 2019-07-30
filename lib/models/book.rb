@@ -1,5 +1,12 @@
 class Book < ActiveRecord::Base
     belongs_to :author
+    has_many :shelfjoins
+    has_many :shelves, through: :shelfjoins
+
+
+    # def initialize(author_name)
+    #     @author_id = #find or create author by author_name, and grab its id
+    # end
 
     #methods to build:
     #get author -- don't need we can just access this
