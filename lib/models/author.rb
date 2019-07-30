@@ -18,6 +18,9 @@ class Author < ActiveRecord::Base
     def number_of_users #number of users who have this author on their shelves
     end
 
+    #method to find the author
+    #method to find the author's books
+
     #methods to build
     #number of books
     #number of shelves they appear on

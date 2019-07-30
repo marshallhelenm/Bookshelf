@@ -44,8 +44,15 @@ class Book < ActiveRecord::Base
         users.uniq
     end
 
-    def self.create_from_api
-        #stuff goes here
+    def self.find_book_from_api(input) #search for a book in the api
+        pull_from_api(input)
+    end
+
+    def self.find_book
+        puts "Please enter a book title:"
+        input = gets.chomp
+        #search for book in database
+        #if not found, search in api and create book (if not found in api, let the user know its not found)
     end
 
 end

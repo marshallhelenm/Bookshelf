@@ -1,4 +1,6 @@
-
+require 'rest-client'
+require 'json'
+require 'pry'
 
 # puts "Please enter a search term:"
 # search_term = gets.chomp -- cli stuff, we don't want to call this every time we are getting data or looking up info from the api
