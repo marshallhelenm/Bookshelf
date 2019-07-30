@@ -25,6 +25,5 @@ class Author < ActiveRecord::Base
     #number of books
     #number of shelves they appear on
     #most popular author (highest num of shelves/users)
-    #most prolific - requires published dates to be on books (stretch)
     #pseudonyms (if available)
 end

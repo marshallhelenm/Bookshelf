@@ -61,9 +61,7 @@ class Book < ActiveRecord::Base
         else
             search_term = "intitle+#{title}+inauthor+#{author}"
         end
-        Book.find_book_from_api(search_term) #this will return lots of stuff probably
-        #check if book title actually contains all the wanted search terms
-        #check for oldest published date
+        results = Book.find_book_from_api(search_term) #this will return 5 books, in an array
         binding.pry #in order to test this we are going to make an iteration to find earliest published date and try to find p&P&Z
 
         #if one result, present it and ask if it's right
