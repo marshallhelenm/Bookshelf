@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "title"
     t.string "genre"
     t.integer "author_id"
+    t.string "api_url"
   end
 
   create_table "shelfjoins", force: :cascade do |t|

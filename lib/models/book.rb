@@ -44,15 +44,33 @@ class Book < ActiveRecord::Base
         users.uniq
     end
 
-    def self.find_book_from_api(input) #search for a book in the api
+    def Book.find_book_from_api(input) #search for a book in the api
         pull_from_api(input)
     end
 
-    def self.find_book
+    def Book.find_book
         puts "Please enter a book title:"
-        input = gets.chomp
+        title = gets.chomp
+        puts "Please enter the author (or hit enter to skip):"
+        author = gets.chomp
         #search for book in database
+        #ask if it's the right one
         #if not found, search in api and create book (if not found in api, let the user know its not found)
+        if author == ""
+            search_term = "intitle+#{title}"
+        else
+            search_term = "intitle+#{title}+inauthor+#{author}"
+        end
+        Book.find_book_from_api(search_term) #this will return lots of stuff probably
+        #check if book title actually contains all the wanted search terms
+        #check for oldest published date
+        binding.pry #in order to test this we are going to make an iteration to find earliest published date and try to find p&P&Z
+
+        #if one result, present it and ask if it's right
+        #if multiple results, present a few and ask if any are right
+
+
+        
     end
 
 end
