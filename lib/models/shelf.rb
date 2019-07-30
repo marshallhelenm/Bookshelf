@@ -23,7 +23,7 @@ class Shelf < ActiveRecord::Base
         authors.uniq
     end
 
-    def add_book(book)#accepts a book instance
+    def add_book(book)#accepts a book instance - so this is really a helper method
         newjoin = Shelfjoin.new(shelf_id: self.id, book_id: book.id)
         book.shelfjoins << newjoin
         self.shelfjoins << newjoin
@@ -33,7 +33,8 @@ class Shelf < ActiveRecord::Base
 
     def add_book_by_name(book_name)
         #find or create book by name
-        Book.all.find_by name: book_name
+        newbook = Book.all.find_by name: book_name
+        self.add_book(newbook)
         #if no result, Book.create_from_api
         #if can't find in Google's database, return a message saying so
         #call add_book
