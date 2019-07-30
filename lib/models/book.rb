@@ -48,7 +48,9 @@ class Book < ActiveRecord::Base
         pull_from_api(search_term)
     end
 
-    def Book.format_search_term(author, title)
+    def Book.format_search_term(terms) #takes array of author and title
+        author = terms[0]
+        title = terms[1]
         if author == ""
             search_term = "intitle+#{title}"
         else
@@ -57,16 +59,22 @@ class Book < ActiveRecord::Base
         search_term
     end
 
-    def Book.get_search_term
+    def Book.get_search_terms
         puts "Please enter a book title:"
         title = gets.chomp
         puts "Please enter the author (or hit enter to skip):"
         author = gets.chomp
-        format_search_term(author, title)
+        return [author, title]
     end
 
-    def Book.find_from_db(search_term)
+    def Book.find_from_db(terms)
+        #terms is an array of author name and book title
         #find book from database
+        author = terms[0]
+        title = terms[1]
+        book = Book.all.find_by do |book|
+            book.author.name.include?(author)
+        end
     end
 
 
@@ -91,10 +99,11 @@ class Book < ActiveRecord::Base
     def Book.find_book
         action = 0
         until action == 3 do
-            search_term = Book.get_search_term
-            book = Book.find_book_from_db(search_term)
+            terms = Book.get_search_terms
+            search_term = format_search_term(terms)
+            book = Book.find_book_from_db(terms)
             if book != nil #possibly not right, point is, if it found the book in the database
-                #return book
+                book #return book
                 action = 3
             else #stuff to do if book not found in database
                 results = Book.find_from_api(search_term)
