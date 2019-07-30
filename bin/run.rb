@@ -19,14 +19,14 @@ shelfjoin1 = Shelfjoin.all.first
 
 book_array = ["intitle+earthsea+inauthor+le+guin", "intitle+mansfield+park+inauthor+jane+austen"]
 # book_array << Book.format_search_term("author", "title")
-book_array << Book.format_search_term("Steinbeck", "East of Eden")
-book_array << Book.format_search_term("Melville", "Moby Dick")
-book_array << Book.format_search_term("Tolstoy", "War And Peace")
-book_array << Book.format_search_term("Homer", "The Odyssey")
-book_array << Book.format_search_term("Marquez", "One Hundred Years of Solitude")
-book_array << Book.format_search_term("Dostoyevsky", "Brothers Karamazov")
-book_array << Book.format_search_term("Homer", "Iliad")
-book_array << Book.format_search_term("Dostoyevsky", "Crime And Punishment")
+book_array << Book.format_search_term(["Steinbeck", "East of Eden"])
+book_array << Book.format_search_term(["Melville", "Moby Dick"])
+book_array << Book.format_search_term(["Tolstoy", "War And Peace"])
+book_array << Book.format_search_term(["Homer", "The Odyssey"])
+book_array << Book.format_search_term(["Marquez", "One Hundred Years of Solitude"])
+book_array << Book.format_search_term(["Dostoyevsky", "Brothers Karamazov"])
+book_array << Book.format_search_term(["Homer", "Iliad"])
+book_array << Book.format_search_term(["Dostoyevsky", "Crime And Punishment"])
     
 binding.pry
 puts test
