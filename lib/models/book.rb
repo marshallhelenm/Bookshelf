@@ -48,17 +48,21 @@ class Book < ActiveRecord::Base
         pull_from_api(search_term)
     end
 
-    def Book.get_search_term
-        puts "Please enter a book title:"
-        title = gets.chomp
-        puts "Please enter the author (or hit enter to skip):"
-        author = gets.chomp
+    def Book.format_search_term(author, title)
         if author == ""
             search_term = "intitle+#{title}"
         else
             search_term = "intitle+#{title}+inauthor+#{author}"
         end
         search_term
+    end
+
+    def Book.get_search_term
+        puts "Please enter a book title:"
+        title = gets.chomp
+        puts "Please enter the author (or hit enter to skip):"
+        author = gets.chomp
+        format_search_term(author, title)
     end
 
     def Book.find_from_db(search_term)
@@ -102,10 +106,23 @@ class Book < ActiveRecord::Base
                     book_num = Book.confirm_book
                     #create book instance & return it and 
                 end
+            end
         end
 
     end
 
+
+    #methods for testing purposes
+    
+    def Book.get_random_book(book_array) #book array will need to be made up of search terms
+        books = book_array.map do |search_term|
+            pull_one_from_api(search_term)
+        end.flatten
+        books.each do |book|
+            binding.pry
+            Book.create(title: book["volumeInfo"]["title"], api_url: book["selfLink"])
+        end
+    end
     
 
 end

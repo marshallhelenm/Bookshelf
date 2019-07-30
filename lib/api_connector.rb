@@ -11,6 +11,12 @@ def pull_from_api(search_term)
     response_hash["items"]
 end
 
+def pull_one_from_api(search_term)
+    string_response = RestClient.get("https://www.googleapis.com/books/v1/volumes?q=#{search_term}&printType=books&projection=lite&orderBy=relevance&maxResults=1&startIndex=0&fields=items(selfLink,volumeInfo(title,authors,description))")
+    response_hash = JSON.parse(string_response)
+    response_hash["items"]
+end
+
 #google api search terms
 # q - Search for volumes that contain this text string. There are special keywords you can specify in the search terms to search in particular fields, such as:
 # intitle: Returns results where the text following this keyword is found in the title.

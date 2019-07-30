@@ -17,5 +17,8 @@ shelfjoin1 = Shelfjoin.all.first
 
 # Book.find_book
 
+book_array = ["intitle+earthsea+inauthor+le+guin", "intitle+mansfield+park+inauthor+jane+austen"]
+# book_array << Book.format_search_term("author", "title")
+    
 binding.pry
 puts test
