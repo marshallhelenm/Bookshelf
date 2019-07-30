@@ -3,7 +3,6 @@ class Book < ActiveRecord::Base
 
     #methods to build:
     #get author -- don't need we can just access this
-    #users who have saved this book 
     #get infodump on book (add more properties that the API has)
     
     #class method - book appearing on the most shelves (most popular book)
@@ -15,20 +14,27 @@ class Book < ActiveRecord::Base
         end
     end
 
+    def shelf_ids
+        self.shelf_joins.collect do |join|
+            shelf_id
+        end #getting an array of ids for shelves that hold this book
+    end
+
     def shelves
         #iterate through all shelves
         #only grab at shelves that are connected to this book by a shelf id
-        Shelf.all.select do |shelf|
-            shelf_joins.collect do |sbjoin|
-                sbjoin.shelf_id = shelf.id
-            end
+
+        shelf_instances = Shelf.all.select do |shelf|
+            self.shelf_ids.include?(shelf.id)
         end
+        shelf_instances
     end
 
     def users
-        # User.all.select do |user|
-        #     user.
-        # end
+        users = self.shelves.collect do |shelf|
+          shelf.user  
+        end
+        users.uniq
     end
 
 end

@@ -9,9 +9,10 @@ class Author < ActiveRecord::Base
         collections = Shelf.all.map do |shelf|
         shelf.books
         end #getting an array of shelves where each shelf is an array of books
-        collections.select do |collection|
-            #this is not done
+        relevant_collections = collections.select do |collection|
+            collection.any?{ |book| book.author == self}
         end
+        relevant_collections.length
     end
 
     #methods to build
