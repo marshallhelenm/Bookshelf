@@ -66,14 +66,21 @@ class Book < ActiveRecord::Base
         author = gets.chomp
         return [author, title]
     end
+    
+    def get_author(author_name)
+        author_instance = Author.all.find do |author|
+            author.name.downcase.include?(author_name.downcase)
+        end 
+        author_instance
+    end
 
     def Book.find_from_db(terms)
         #terms is an array of author name and book title
         #find book from database
-        author = terms[0]
-        title = terms[1]
-        book = Book.all.find_by do |book|
-            book.author.name.include?(author)
+        author_name = terms[0].downcase
+        title = terms[1].downcase
+        book = Book.all.find do |book| 
+            book.title.downcase.include?(title) && book.get_author(author_name).name.downcase.include?(author_name)
         end
     end
 
