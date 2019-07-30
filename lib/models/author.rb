@@ -11,7 +11,7 @@ class Author < ActiveRecord::Base
         end #getting an array of shelves where each shelf is an array of books
         relevant_collections = collections.select do |collection|
             collection.any?{ |book| book.author == self}
-        end
+        end #keeping only those collections which contain one of the author's books
         relevant_collections.length
     end
 

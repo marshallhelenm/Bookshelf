@@ -21,5 +21,16 @@ class Shelf < ActiveRecord::Base
         end
         authors.uniq
     end
+
+    def add_book(book)#accepts a book instance
+        SBJoin.new(shelf_id: self, book_id: book)#TODO is .id needed here?
+    end
+
+    def add_book_by_name(book_name)
+        #find or create book by name
+        Book.all.find_by name: book_name
+        #if no result, Book.create_from_api
+        #call add_book
+    end
     
 end

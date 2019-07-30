@@ -37,4 +37,8 @@ class Book < ActiveRecord::Base
         users.uniq
     end
 
+    def self.create_from_api
+        #stuff goes here
+    end
+
 end
