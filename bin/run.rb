@@ -15,5 +15,7 @@ shelf2 = Shelf.all.second
 shelf3 = Shelf.all.third
 shelfjoin1 = Shelfjoin.all.first
 
+# Book.find_book
+
 binding.pry
 puts test

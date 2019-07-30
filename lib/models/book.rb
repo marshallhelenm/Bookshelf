@@ -44,31 +44,68 @@ class Book < ActiveRecord::Base
         users.uniq
     end
 
-    def Book.find_book_from_api(input) #search for a book in the api
-        pull_from_api(input)
+    def Book.find_from_api(search_term) #search for a book in the api, returns top 5 results
+        pull_from_api(search_term)
     end
 
-    def Book.find_book
+    def Book.get_search_term
         puts "Please enter a book title:"
         title = gets.chomp
         puts "Please enter the author (or hit enter to skip):"
         author = gets.chomp
-        #search for book in database
-        #ask if it's the right one
-        #if not found, search in api and create book (if not found in api, let the user know its not found)
         if author == ""
             search_term = "intitle+#{title}"
         else
             search_term = "intitle+#{title}+inauthor+#{author}"
         end
-        results = Book.find_book_from_api(search_term) #this will return 5 books, in an array
-        binding.pry #in order to test this we are going to make an iteration to find earliest published date and try to find p&P&Z
-
-        #if one result, present it and ask if it's right
-        #if multiple results, present a few and ask if any are right
-
-
-        
+        search_term
     end
+
+    def Book.find_from_db(search_term)
+        #find book from database
+    end
+
+
+    def Book.display_results(results)
+        display_array = results.collect do |book|
+            book["volumeInfo"]
+        end
+        display_array.each_with_index do |result, index|
+            puts "#{index+1}."
+            puts "Title: #{result["title"]}"
+            puts "Author: #{result["authors"].join(", ")}"
+            puts "Description: #{result["description"]}"
+        end
+
+    end
+
+    def Book.confirm_book
+            puts "Which number?"      
+            book_num = gets.chomp.to_i #other stuff heeeeeere
+    end
+
+    def Book.find_book
+        action = 0
+        until action == 3 do
+            search_term = Book.get_search_term
+            book = Book.find_book_from_db(search_term)
+            if book != nil #possibly not right, point is, if it found the book in the database
+                #return book
+                action = 3
+            else #stuff to do if book not found in database
+                results = Book.find_from_api(search_term)
+                puts "Is it one of the below?"
+                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
+                display_results(results)
+                action = gets.chomp.to_i
+                if action == 1
+                    book_num = Book.confirm_book
+                    #create book instance & return it and 
+                end
+        end
+
+    end
+
+    
 
 end
