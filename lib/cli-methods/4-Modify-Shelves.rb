@@ -4,26 +4,30 @@ def menu_option_four(active_user)
     to_menu = false
     until to_menu == true
         action = menu_four #(shows menu and gets action)
-        menu_four_perform(action)
-
+        to_menu = menu_four_perform(action)
     end 
 end
 
 def menu_four
-        #show them a menu:
-        # create shelf
-        # delete shelf
-        # modify shelf (run shelf_options)
-        #main menu (return to_menu = true)
-        #get action
-        #return action
+    menu = <<-MENU
+        1. Create a Shelf\n
+        2. Delete a Shelf\n
+        3. Modify a Shelf\n
+        4. Main Menu
+        MENU
+        action = gets.chomp.to_i
 end
 
 def menu_four_perform(action, active_user)
     case action
-    when 1 #create shelf
-    when 2 #delete shelf
-    when 3 shelf_options(active_user)
+    when 1 
+        #create shelf
+    when 2 
+        #delete shelf
+    when 3 
+        shelf_options(active_user)
+    when 4
+        return to_menu = true
     end
 end
 
