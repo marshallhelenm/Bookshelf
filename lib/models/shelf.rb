@@ -40,4 +40,7 @@ class Shelf < ActiveRecord::Base
         #call add_book
     end
     
+    
+
+
 end

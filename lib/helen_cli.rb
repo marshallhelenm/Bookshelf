@@ -45,19 +45,19 @@ end
 def create_account
     active_user = nil
     "Please enter a username:"
-        until user
+        until active_user
             username = gets.chomp
             active_user = User.all.find do |user|
                 user.name == username
             end #will return either a user instance or nil
-            if !active_user 
+            if active_user 
+                "Oops! That username is taken! Please enter a different username:"
+            else
                 active_user = User.create(username)
                 wishlist = Shelf.create("My Wishlist")
                 read = Shelf.create("My Read Books")
                 active_user.shelves << wishlist << read
                 "Welcome, #{username}!"
-            else
-                "Oops! That username is taken! Please enter a different username:"
             end
         end
     active_user
@@ -76,4 +76,11 @@ def log_in_sign_up
         active_user = create_account
     end
     active_user
+end
+
+
+
+#modify shelf contents this might be a program method, it might be a shelf instance method. not sure which
+def modify_contents(shelf)
+    
 end
