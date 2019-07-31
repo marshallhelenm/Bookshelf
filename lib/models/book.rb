@@ -44,7 +44,7 @@ class Book < ActiveRecord::Base
         users.uniq
     end
 
-    def Book.find_from_api(search_term) #search for a book in the api, returns top 5 results
+    def Book.grab_data_from_api(search_term) #search for a book in the api, returns top 5 results
         pull_from_api(search_term)
     end
 
@@ -114,7 +114,7 @@ class Book < ActiveRecord::Base
                 book #return book
                 action = 3
             else #stuff to do if book not found in database
-                results = Book.find_from_api(search_term)
+                results = Book.grab_data_from_api(search_term)
                 puts "Is it one of the below?"
                 puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 display_results(results)
@@ -145,6 +145,8 @@ class Book < ActiveRecord::Base
          book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id)
     end
 
+    
+    
     #methods for testing purposes
     
     def Book.get_random_book(book_array) #book array will need to be made up of search terms
