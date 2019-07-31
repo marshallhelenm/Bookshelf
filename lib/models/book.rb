@@ -48,6 +48,31 @@ class Book < ActiveRecord::Base
         pull_from_api(search_term)
     end
 
+    def Book.create_from_api(book_data)
+        #takes in api data for a book
+        #adds a book to the database using api info
+        #assigns an author, and creates one if needed
+    
+        #search for author:
+        auth_inst = Author.all.find do |author|
+            author.name == book_data["volumeInfo"]["authors"][0]
+        end        
+        if auth_inst == nil
+            auth_inst = Author.create(name: book_data["volumeInfo"]["authors"][0])
+        end
+        
+         #create book instance:
+         book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id)
+    end
+
+    def Book.get_search_terms
+        puts "Please enter a book title:"
+        title = gets.chomp
+        puts "Please enter the author (or hit enter to skip):"
+        author = gets.chomp
+        return [author, title]
+    end
+    
     def Book.format_search_term(terms) #takes array of author and title
         author = terms[0]
         title = terms[1]
@@ -60,15 +85,7 @@ class Book < ActiveRecord::Base
         search_term
     end
 
-    def Book.get_search_terms
-        puts "Please enter a book title:"
-        title = gets.chomp
-        puts "Please enter the author (or hit enter to skip):"
-        author = gets.chomp
-        return [author, title]
-    end
-    
-    def get_author(author_name)
+    def get_author_by_name(author_name)
         author_instance = Author.all.find do |author|
             author.name.downcase.include?(author_name.downcase)
         end 
@@ -81,7 +98,7 @@ class Book < ActiveRecord::Base
         author_name = terms[0].downcase
         title = terms[1].downcase
         book = Book.all.find do |book| 
-            book.title.downcase.include?(title) || book.get_author(author_name).name.downcase.include?(author_name)
+            book.title.downcase.include?(title) || book.get_author_by_name(author_name).name.downcase.include?(author_name)
         end
     end
 
@@ -107,43 +124,31 @@ class Book < ActiveRecord::Base
     def Book.find_book
         action = 0
         until action == 3 do
-            terms = Book.get_search_terms
-            search_term = format_search_term(terms)
-            book = Book.find_book_from_db(terms)
-            if book != nil #possibly not right, point is, if it found the book in the database
+            terms = Book.get_search_terms #grab search terms from user input
+            search_term = format_search_term(terms) #format search term for use in api search
+            book = Book.find_book_from_db(terms) #check for book in the database
+            if book != nil #if successfully found the book in the database do the below
                 book #return book
-                action = 3
+                action = 3 #end the loop
             else #stuff to do if book not found in database
-                results = Book.grab_data_from_api(search_term)
+                results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
+                # display the results in a user friendly way and ask the user for an action
                 puts "Is it one of the below?"
                 puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 display_results(results)
                 action = gets.chomp.to_i
                 if action == 1
-                    book_num = Book.confirm_book
-                    #then create book instance & return it and 
+                    book_num = Book.confirm_book #ask the user to tell us which book is the right one
+                    book = Book.create_from_api(results[book_num - 1]) #create book instance based on the api data for the indicated book (the number they indicated will be one higher than that books data index)
+                    book #return the book instance
+                    action = 3 #end the loop
                 end
             end
         end
 
     end
 
-    def Book.create_from_api(book_data)
-        #takes in api data for a book
-        #adds a book to the database using api info
-        #assigns an author, and creates one if needed
-       
-        #author biz:
-        #search for author:
-        auth_inst = Author.all.find do |author|
-            author.name == book_data["volumeInfo"]["authors"][0]
-        end        
-        if auth_inst == nil
-            auth_inst = Author.create(name: book_data["volumeInfo"]["authors"][0])
-        end
-         #create book instance:
-         book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id)
-    end
+
 
     
     
