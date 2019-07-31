@@ -32,41 +32,48 @@
     # 4. Exit to main menu
     # get user input
 
-    def view_shelves(active_user)
-        # iterate through list of shelves and print with indices
-        print_shelf_list(active_user)
 
-        #get user choice
+    #helper method
+    def choose_shelf
+        puts "Choose a shelf"
         user_input = gets.chomp.to_i
+        shelf_choice = active_user.shelves[user_input - 1]
+    end
 
-        if user_input == shelf.length + 1
-            main_menu_list
-        else
-            shelf_choice = active_user.shelves[user_input - 1]
-            #shelf menu method maybe
-            menu = <<-MENU
-                You have selected #{shelf_choice.name}\n
-                What would you like to do?\n
-                1. View shelf contents\n
-                2. Modify shelf"# (at this point we would be going to a different method) - specify (add/delete shelf)\n
-                3. Modify contents"# (different method) - specify (add/delete books)\n
-                4. Exit to main menu
-            MENU
-            puts menu
-            new_user_input = gets.chomp.to_i
-            case new_user_input
-            when 1
-                view_shelf_contents(shelf_choice)
-            when 2
-                #separate method modify shelf
-            when 3
-                #separate method modify contents
-            when 4
-                main_menu_list
-            end
-        else
+    #helper method
+    def shelf_menu(shelf_choice)
+        menu = <<-MENU
+            You have selected #{shelf_choice.name}\n
+            What would you like to do?\n
+            1. View shelf contents\n
+            2. Modify shelf"# (at this point we would be going to a different method) - specify (add/delete shelf)\n
+            3. Modify contents"# (different method) - specify (add/delete books)\n
+            4. Exit to main menu
+        MENU
+        puts menu
+    end
+
+    def choose_shelf_menu_option(shelf_choice)
+        new_user_input = gets.chomp.to_i
+        case new_user_input
+        when 1 # view shelf contents
+            view_shelf_contents(shelf_choice)
+        when 2 # modify shelf
+            #separate method modify shelf
+        when 3 #modify contents
+            #separate method modify contents
+        when 4 #exit to main menu
             main_menu_list
         end
+    end
+
+
+    def view_shelves(active_user) #needs to be renamed - breaking up into smaller parts
+        # iterate through list of shelves and print with indices
+        print_shelf_list(active_user) # print list of all user's shelves
+        shelf_choice = choose_shelf # get user to select a shelf to interact with
+        shelf_menu(shelf_choice) # print options for how user can interact with the shelf
+        choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
 
     #helper method to print out a list of the user's shelves
@@ -166,14 +173,16 @@
         puts "What would you like to name your new shelf?"
         new_shelf_name = gets.chomp
         #check to see if shelf name already exists - would find_or_create work better?
-        if Shelf.all.select {|shelf| shelf.name == new_shelf_name }.empty?
+        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
+        if !shelf
             new_shelf_description = gets.chomp
             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
             active_user.shelves << my_new_shelf
             active_user.save
             #ask if they want to add books
             text = <<-TEXT
-                1. Add books to shelf\n
+                Would you like to add books to this shelf or move on?\n
+                1. Add books\n
                 2. Exit to Main Menu
             TEXT
             puts text
@@ -186,8 +195,9 @@
         else
             text = <<-TEXT
                 Oops! That shelf already exists!\n
+                What would you like to do?\n
                 1. Select the existing shelf\n
-                2. Try again
+                2. Try a new shelf name
             TEXT
             puts text
             user_input = gets.chomp.to_i
