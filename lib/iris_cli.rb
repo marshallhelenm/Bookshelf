@@ -116,27 +116,27 @@
     end
 
     def main_menu_action(active_user, user_input)
-        while user_input != 7
-            case user_input
-            when 1
-                wishlist = active_user.shelves.find do |shelf|
-                    shelf.name == "My Wishlist"
-                end
-                view_shelf_contents(wishlist)
-            when 2
-                read = active_user.shelves.find do |shelf|
-                    shelf.name == "My Read Books"
-                view_shelf_contents(read)
-            when 3
-                view_shelves(active_user)
-            when 4
-                #need to write the modify shelves stuff
-            when 5
-                #search books
-                Book.find_book
-            when 6
-                #search author - need to write (stretch goal)
+        case user_input
+        when 1
+            wishlist = active_user.shelves.find do |shelf|
+                shelf.name == "My Wishlist"
             end
+            view_shelf_contents(wishlist)
+        when 2
+            read = active_user.shelves.find do |shelf|
+                shelf.name == "My Read Books"
+            view_shelf_contents(read)
+        when 3
+            view_shelves(active_user)
+        when 4
+            #need to write the modify shelves stuff
+        when 5
+            #search books
+            Book.find_book
+        when 6
+            #search author - need to write (stretch goal)
+        when 7
+            quitter = true
         end
     end
 
