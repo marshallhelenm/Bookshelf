@@ -1,44 +1,44 @@
     #helper method
-    def choose_shelf
+    def choose_shelf #this method returns a shelf instance
         puts "Choose a shelf"
         user_input = gets.chomp.to_i
         shelf_choice = active_user.shelves[user_input - 1]
     end
 
     #helper method
-    def shelf_menu(shelf_choice)
+    def shelf_menu(shelf_choice) #returns the user's action choice
         menu = <<-MENU
             You have selected #{shelf_choice.name}\n
             What would you like to do?\n
             1. View shelf contents\n
-            2. Modify shelf"# (at this point we would be going to a different method) - specify (add/delete shelf)\n
-            3. Modify contents"# (different method) - specify (add/delete books)\n
-            4. Exit to main menu
+            2. Modify shelf\n
+            3. Exit to main menu
         MENU
         puts menu
+        action = gets.chomp.to_i
     end
 
     #NEEDS WORK
-    def choose_shelf_menu_option(shelf_choice)
-        new_user_input = gets.chomp.to_i
-        case new_user_input
-        when 1 # view shelf contents
-            view_shelf_contents(shelf_choice)
-        when 2 # modify shelf
-            #separate method: modify shelf
-        when 3 #modify contents
-            #separate method: modify contents
-        when 4 #exit to main menu
-            main_menu_list
-        end
-    end
+    # def choose_shelf_menu_option(shelf_choice, action) #takes a shelf instance and a menu action choice
+    #     case action
+    #     when 1 # view shelf contents
+    #         view_shelf_contents(shelf_choice)
+    #     when 2 # modify shelf
+    #         #separate method: modify shelf
+    #         modify_contents(shelf_choice)
+    #     when 3 #exit to main menu
+    #         main_menu_list #goes back to the start of our menu loop
+    #     end
+    # end
 
 
-    def view_shelves(active_user)
+    def shelf_options(active_user)
         print_shelf_list(active_user) # print list of all user's shelves
         shelf_choice = choose_shelf # get user to select a shelf to interact with
-        shelf_menu(shelf_choice) # print options for how user can interact with the shelf
-        choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
+        # shelf_menu(shelf_choice) # print options for how user can interact with the shelf
+        action = modify_shelf_menu #returns a user action
+        modify_shelf(shelf_choice, action)
+        # choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
     
 
@@ -53,6 +53,17 @@
             end
         end
     end
+
+    # def menu_or_quit
+    #     puts "Would you like to return to the main menu or quit?"
+    #     puts "1. Main Menu"
+    #     puts "2. Quit"
+    #     action = gets.chomp.to_i
+    #     if action == 1
+    #         main_menu_list
+
+
+    # end
 
     #helper method to print out contents of the shelf
     def view_shelf_contents(shelf)
@@ -91,9 +102,10 @@
                 shelf.name == "My Read Books"
             view_shelf_contents(read)
         when 3 #view all shelves
-            view_shelves(active_user)
+            print_shelf_list(active_user)
         when 4 #modify shelves
-            #separate method
+            shelf_options(active_user)
+            # modify_shelf(shelf)
         when 5 #search books
             Book.find_book
         when 6 #search author
