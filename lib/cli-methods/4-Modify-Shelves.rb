@@ -97,7 +97,7 @@ end
 def view_shelf_contents(shelf)
     shelf.books.each_with_index do |book, index|
         puts "#{index + 1}. #{book.title} by #{book.author.name}"
-    end
+    end 
 end
 
 def remove_book(shelf)
