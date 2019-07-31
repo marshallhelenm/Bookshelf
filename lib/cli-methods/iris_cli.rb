@@ -1,38 +1,3 @@
-# 1. View my Wishlist
-#         Print contents of Wishlist shelf for this user with no description
-#         tell the user to enter a number for more info
-#             show full book info
-#     2. View my Read Books 
-#         see #1
-#     3. View Shelf List
-#         Pretty print a list of their shelf names
-#         prompt them to select a shelf, or leave 
-#         a. select a shelf
-#             ask them what they want to do with it
-#             i. view contents
-#                 see #1
-#             ii. modify shelf
-#                 direct to #4
-#             iii. modify contents
-
-
-#View shelf List pseudocode - should these all be loops?
-
-# when userinput == view shelf list option ->
-    # find the user shelves using user id == self
-    # iterate through list of shelves and print with indices (plus 1)
-# now puts a message with numbered options for user actions
-    # 1 - ? are equivalent to the printed list - selecting takes the user to the next step
-    # last option is to exit to main menu
-    # get user input
-# If user inputs a number corresponding to a shelf index + 1 give them numbered options
-    # 1. View shelf contents
-    # 2. Modify shelf (at this point we would be going to a different method) - specify (add/delete shelf)
-    # 3. Modify contents (different method) - specify (add/delete books)
-    # 4. Exit to main menu
-    # get user input
-
-
     #helper method
     def choose_shelf
         puts "Choose a shelf"
@@ -60,16 +25,16 @@
         when 1 # view shelf contents
             view_shelf_contents(shelf_choice)
         when 2 # modify shelf
-            #separate method modify shelf
+            #separate method: modify shelf
         when 3 #modify contents
-            #separate method modify contents
+            #separate method: modify contents
         when 4 #exit to main menu
             main_menu_list
         end
     end
 
 
-    def view_shelves(active_user) #needs to be renamed - breaking up into smaller parts
+    def view_shelves(active_user)
         print_shelf_list(active_user) # print list of all user's shelves
         shelf_choice = choose_shelf # get user to select a shelf to interact with
         shelf_menu(shelf_choice) # print options for how user can interact with the shelf
@@ -78,7 +43,6 @@
 
     #helper method to print out a list of the user's shelves
     def print_shelf_list(active_user)
-        # user is directly connected to shelves (they belong to the user, so can just use user.shelves)
         active_user.shelves.each_with_index do |shelf, index|
             if shelf == user.shelves[-1]
                 puts "#{index + 1}. #{shelf.name}"
@@ -96,10 +60,9 @@
         end
     end
 
-
+    #start the program from the point after login/signup
+    #where user is being given a list of what they can do
     def main_menu_list
-        #should start the program from the point after login/signup
-        #where user is being given a list of what they can do
         menu_text = <<-MENU
             1. View my Wishlist\n
             2. View my Read Books\n
@@ -111,64 +74,33 @@
             MENU
         puts "What would you like to do?"
         puts menu_text
-        #now we need to get an input from the user
         user_input = gets.chomp.to_i
     end
 
     #NEEDS WORK
     def main_menu_action(active_user, user_input)
         case user_input
-        when 1
+        when 1 #view wishlist
             wishlist = active_user.shelves.find do |shelf|
                 shelf.name == "My Wishlist"
             end
             view_shelf_contents(wishlist)
-        when 2
+        when 2 #view read books list
             read = active_user.shelves.find do |shelf|
                 shelf.name == "My Read Books"
             view_shelf_contents(read)
-        when 3
+        when 3 #view all shelves
             view_shelves(active_user)
-        when 4
-            #need to write the modify shelves stuff
-        when 5
-            #search books
+        when 4 #modify shelves
+            #separate method
+        when 5 #search books
             Book.find_book
-        when 6
-            #search author - need to write (stretch goal)
-        when 7
-            #exits the loop in our bookshelfcli.rb file
+        when 6 #search author
+            #(stretch goal)
+        when 7 #exits the loop in our bookshelfcli.rb file
             quitter = true
         end
     end
-
-
-    # 4. Modify shelves
-    #     a. create Shelf
-    #     b. delete shelf 
-    #         i. which shelf?
-    #     c. rename shelf
-    #         i. which shelf?
-    #     d. modify contents
-    #         i. which shelf?
-
-    # create Shelf
-    #         prompt for a shelf name (if our holder variable is empty)
-    #         create shelf instance, and associate it to the user
-    #         ask if they want to add books. 
-    #             if no, back to start
-    #             if yes, modify contents
-    #     b. delete shelf 
-    #         prompt for shelf name
-    #         check if it exists
-    #         ask them if they are sure they want to delete the shelf (show name)
-    #         delete shelf instance and all associated shelfjoin instances
-    #     c. rename shelf
-    #         i. which shelf?
-    #         reassign name
-    #         show new name, ask if that was right
-    #         if yes, save to database,
-    #         if not: try again?, quit
 
     #helper method if the user tries to create a shelf that is already in the database
     def shelf_already_exists(active_user)
@@ -224,6 +156,56 @@
     end
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    # 4. Modify shelves
+    #     a. create Shelf
+    #     b. delete shelf 
+    #         i. which shelf?
+    #     c. rename shelf
+    #         i. which shelf?
+    #     d. modify contents
+    #         i. which shelf?
+
+    # create Shelf
+    #         prompt for a shelf name (if our holder variable is empty)
+    #         create shelf instance, and associate it to the user
+    #         ask if they want to add books. 
+    #             if no, back to start
+    #             if yes, modify contents
+    #     b. delete shelf 
+    #         prompt for shelf name
+    #         check if it exists
+    #         ask them if they are sure they want to delete the shelf (show name)
+    #         delete shelf instance and all associated shelfjoin instances
+    #     c. rename shelf
+    #         i. which shelf?
+    #         reassign name
+    #         show new name, ask if that was right
+    #         if yes, save to database,
+    #         if not: try again?, quit
 
 
     # def create_shelf(active_user)
