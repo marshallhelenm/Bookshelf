@@ -22,14 +22,14 @@ class Shelf < ActiveRecord::Base
         authors.uniq
     end
 
-    def remove_book(book)
+    def remove_book_from_shelf(book)
         connection = Shelfjoin.all.find do |join|
             shelf_id == shelf.id && book_id == book.id
         end
         connection.delete
     end
 
-    def add_book(book)#accepts a book instance - so this is really a helper method
+    def add_book_to_shelf(book)#accepts a book instance - so this is really a helper method
         self.books << book
         self.save
     end
