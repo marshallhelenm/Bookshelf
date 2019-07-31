@@ -1,16 +1,16 @@
 
-    #helper method
-    def shelf_menu(shelf_choice) #returns the user's action choice
-        menu = <<-MENU
-            You have selected #{shelf_choice.name}\n
-            What would you like to do?\n
-            1. View shelf contents\n
-            2. Modify shelf\n
-            3. Exit to main menu
-        MENU
-        puts menu
-        action = gets.chomp.to_i
-    end
+    # #helper method
+    # def shelf_menu(shelf_choice) #returns the user's action choice
+    #     menu = <<-MENU
+    #         You have selected #{shelf_choice.name}\n
+    #         What would you like to do?\n
+    #         1. View shelf contents\n
+    #         2. Modify shelf\n
+    #         3. Exit to main menu
+    #     MENU
+    #     puts menu
+    #     action = gets.chomp.to_i
+    # end
 
     #helper method if the user tries to create a shelf that is already in the database
     def shelf_already_exists(active_user)
@@ -66,6 +66,19 @@
         end
     end
 
+
+    def delete_shelf(shelf)
+        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
+        if shelf
+            puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
+            action = gets.chomp
+            if action == 'y'
+                shelf.delete
+            end
+        else
+            puts "We cannot find a shelf under that name."
+        end
+    end
 
 
 
