@@ -32,9 +32,9 @@
     # 4. Exit to main menu
     # get user input
 
-    def view_shelves(user)
+    def view_shelves(active_user)
         # iterate through list of shelves and print with indices
-        print_shelf_list(user)
+        print_shelf_list(active_user)
 
         #get user choice
         user_input = gets.chomp.to_i
@@ -42,13 +42,17 @@
         if user_input == shelf.length + 1
             main_menu_list
         else
-            shelf_choice = user.shelves[user_input - 1] 
-            puts "You have selected #{shelf_choice.name}"
-            puts "What would you like to do?"
-            puts "1. View shelf contents"
-            puts "2. Modify shelf"# (at this point we would be going to a different method) - specify (add/delete shelf)
-            puts "3. Modify contents"# (different method) - specify (add/delete books)
-            puts "4. Exit to main menu"
+            shelf_choice = active_user.shelves[user_input - 1]
+            #shelf menu method maybe
+            menu = <<-MENU
+                You have selected #{shelf_choice.name}\n
+                What would you like to do?\n
+                1. View shelf contents\n
+                2. Modify shelf"# (at this point we would be going to a different method) - specify (add/delete shelf)\n
+                3. Modify contents"# (different method) - specify (add/delete books)\n
+                4. Exit to main menu
+            MENU
+            puts menu
             new_user_input = gets.chomp.to_i
             case new_user_input
             when 1
@@ -66,9 +70,9 @@
     end
 
     #helper method to print out a list of the user's shelves
-    def print_shelf_list(user)
+    def print_shelf_list(active_user)
         # user is directly connected to shelves (they belong to the user, so can just use user.shelves)
-        user.shelves.each_with_index do |shelf, index|
+        active_user.shelves.each_with_index do |shelf, index|
             if shelf == user.shelves[-1]
                 puts "#{index + 1}. #{shelf.name}"
                 puts "#{index + 2}. Exit to Main Menu"
@@ -90,12 +94,12 @@
         #should start the program from the point after login/signup
         #where user is being given a list of what they can do
         menu_text = <<-MENU
-            1. View my Wishlist
-            2. View my Read Books
-            3. View my Shelf List
-            4. Modify Shelves
-            5. Search Books
-            6. Search Author
+            1. View my Wishlist\n
+            2. View my Read Books\n
+            3. View my Shelf List\n
+            4. Modify Shelves\n
+            5. Search Books\n
+            6. Search Author\n
             7. Exit
             MENU
         puts "What would you like to do?"
@@ -104,20 +108,20 @@
         user_input = gets.chomp.to_i
     end
 
-    def main_menu_action(user, user_input)
+    def main_menu_action(active_user, user_input)
         while user_input != 7
             case user_input
             when 1
-                wishlist = user.shelves.find do |shelf|
+                wishlist = active_user.shelves.find do |shelf|
                     shelf.name == "My Wishlist"
                 end
                 view_shelf_contents(wishlist)
             when 2
-                read = user.shelves.find do |shelf|
+                read = active_user.shelves.find do |shelf|
                     shelf.name == "My Read Books"
                 view_shelf_contents(read)
             when 3
-                view_shelves(user)
+                view_shelves(active_user)
             when 4
                 #need to write the modify shelves stuff
             when 5
@@ -128,3 +132,70 @@
             end
         end
     end
+
+
+    # 4. Modify shelves
+    #     a. create Shelf
+    #     b. delete shelf 
+    #         i. which shelf?
+    #     c. rename shelf
+    #         i. which shelf?
+    #     d. modify contents
+    #         i. which shelf?
+
+    # create Shelf
+    #         prompt for a shelf name (if our holder variable is empty)
+    #         create shelf instance, and associate it to the user
+    #         ask if they want to add books. 
+    #             if no, back to start
+    #             if yes, modify contents
+    #     b. delete shelf 
+    #         prompt for shelf name
+    #         check if it exists
+    #         ask them if they are sure they want to delete the shelf (show name)
+    #         delete shelf instance and all associated shelfjoin instances
+    #     c. rename shelf
+    #         i. which shelf?
+    #         reassign name
+    #         show new name, ask if that was right
+    #         if yes, save to database,
+    #         if not: try again?, quit
+
+
+    def create_shelf(active_user)
+        puts "What would you like to name your new shelf?"
+        new_shelf_name = gets.chomp
+        #check to see if shelf name already exists - would find_or_create work better?
+        if Shelf.all.select {|shelf| shelf.name == new_shelf_name }.empty?
+            new_shelf_description = gets.chomp
+            my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
+            active_user.shelves << my_new_shelf
+            active_user.save
+            #ask if they want to add books
+            text = <<-TEXT
+                1. Add books to shelf\n
+                2. Exit to Main Menu
+            TEXT
+            puts text
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                #run add books method
+            else
+                main_menu_list
+            end
+        else
+            text = <<-TEXT
+                Oops! That shelf already exists!\n
+                1. Select the existing shelf\n
+                2. Try again
+            TEXT
+            puts text
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                #run shelf menu method
+            else
+                create_shelf(active_user)
+            end
+        end
+    end
+
