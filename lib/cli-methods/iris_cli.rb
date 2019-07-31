@@ -40,6 +40,7 @@
         shelf_menu(shelf_choice) # print options for how user can interact with the shelf
         choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
+    
 
     #helper method to print out a list of the user's shelves
     def print_shelf_list(active_user)
@@ -111,13 +112,14 @@
                 2. Try a new shelf name
         TEXT
         puts text
-        user_input = gets.chomp.to_i
+        action = gets.chomp.to_i
     end
 
     #take in user input after getting shelf exists error
     def action_for_shelf_exists(action)
         if action == 1
-            #move to shelf instance methods
+            shelf_menu(shelf_choice) # print options for how user can interact with the shelf
+            choose_shelf_menu_option(shelf_choice) # get user action choice and perform actio
         else
             ask_user_for_new_shelf
         end
@@ -168,7 +170,7 @@
 
 
 
-    
+
 
 
 
