@@ -1,0 +1,26 @@
+*always give option to go back to main menu
+
+I come in and load the program
+    Log in or create username (find user by username)
+Find out what I can do (CLI will list options)
+    1. View my Wishlist
+    2. View my Read Books 
+    3. View Shelf List 
+        a. select a shelf
+            i. view contents
+            ii. modify shelf
+            iii. modify contents
+    4. Modify shelves
+        a. create Shelf
+        b. delete shelf 
+            i. which shelf?
+        c. rename shelf
+            i. which shelf?
+        d. modify contents
+            i. which shelf?
+    5. Search books 
+        a. add to a shelf
+        b. search again
+    6. Search author (stretch)
+    7. Exit
+    

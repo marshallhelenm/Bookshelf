@@ -1,0 +1,35 @@
+Modify shelves
+        a. create Shelf
+            prompt for a shelf name (if our holder variable is empty)
+            create shelf instance, and associate it to the user
+            ask if they want to add books. 
+                if no, back to start
+                if yes, modify contents
+        b. delete shelf 
+            prompt for shelf name
+            check if it exists
+            ask them if they are sure they want to delete the shelf (show name)
+            delete shelf instance and all associated shelfjoin instances
+        c. rename shelf
+            i. which shelf?
+            reassign name
+            show new name, ask if that was right
+            if yes, save to database,
+            if not: try again?, quit
+        d. modify contents
+            i. which shelf?
+            show options:
+                view contents  
+                    show options again
+                remove book
+                    (stretch to remove from all shelves at once)
+                    which book? please enter a number.
+                    display contents with numbers
+                    gets.chomp
+                add book
+                    find_book - gets book instance based on user input
+                    check if book on shelf already
+                    if not, add it.
+                    if it is, let them know and give options again
+                (move book to different shelf - stretch)
+                main menu
