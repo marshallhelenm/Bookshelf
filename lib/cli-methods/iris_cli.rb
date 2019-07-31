@@ -53,6 +53,7 @@
         puts menu
     end
 
+    #NEEDS WORK
     def choose_shelf_menu_option(shelf_choice)
         new_user_input = gets.chomp.to_i
         case new_user_input
@@ -69,7 +70,6 @@
 
 
     def view_shelves(active_user) #needs to be renamed - breaking up into smaller parts
-        # iterate through list of shelves and print with indices
         print_shelf_list(active_user) # print list of all user's shelves
         shelf_choice = choose_shelf # get user to select a shelf to interact with
         shelf_menu(shelf_choice) # print options for how user can interact with the shelf
@@ -97,7 +97,7 @@
     end
 
 
-    def main_menu_list #rename just main menu
+    def main_menu_list
         #should start the program from the point after login/signup
         #where user is being given a list of what they can do
         menu_text = <<-MENU
@@ -115,6 +115,7 @@
         user_input = gets.chomp.to_i
     end
 
+    #NEEDS WORK
     def main_menu_action(active_user, user_input)
         case user_input
         when 1
@@ -136,6 +137,7 @@
         when 6
             #search author - need to write (stretch goal)
         when 7
+            #exits the loop in our bookshelfcli.rb file
             quitter = true
         end
     end
@@ -168,44 +170,92 @@
     #         if yes, save to database,
     #         if not: try again?, quit
 
-
-    def create_shelf(active_user)
-        puts "What would you like to name your new shelf?"
-        new_shelf_name = gets.chomp
-        #check to see if shelf name already exists - would find_or_create work better?
-        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
-        if !shelf
-            new_shelf_description = gets.chomp
-            my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
-            active_user.shelves << my_new_shelf
-            active_user.save
-            #ask if they want to add books
-            text = <<-TEXT
-                Would you like to add books to this shelf or move on?\n
-                1. Add books\n
-                2. Exit to Main Menu
-            TEXT
-            puts text
-            user_input = gets.chomp.to_i
-            if user_input == 1
-                #run add books method
-            else
-                main_menu_list
-            end
-        else
-            text = <<-TEXT
+    #helper method if the user tries to create a shelf that is already in the database
+    def shelf_already_exists(active_user)
+        text = <<-TEXT
                 Oops! That shelf already exists!\n
                 What would you like to do?\n
                 1. Select the existing shelf\n
                 2. Try a new shelf name
-            TEXT
-            puts text
-            user_input = gets.chomp.to_i
-            if user_input == 1
-                #run shelf menu method
-            else
-                create_shelf(active_user)
-            end
+        TEXT
+        puts text
+        user_input = gets.chomp.to_i
+    end
+
+    #take in user input after getting shelf exists error
+    def action_for_shelf_exists(action)
+        if action == 1
+            #move to shelf instance methods
+        else
+            ask_user_for_new_shelf
         end
     end
+
+    def ask_user_for_new_shelf
+        puts "What would you like to name your new shelf?"
+        new_shelf_name = gets.chomp
+    end
+
+    def create_new_shelf(new_shelf_name, active_user)
+        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
+        if shelf
+            shelf_already_exists(active_user)
+        else
+            new_shelf_description = gets.chomp
+            my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
+            active_user.shelves << my_new_shelf
+            active_user.save
+        end
+    end
+
+    def add_books_to_new_shelf
+        text = <<-TEXT
+                    Would you like to add books to this shelf or move on?\n
+                    1. Add books\n
+                    2. Exit to Main Menu
+                TEXT
+        puts text
+        user_input = gets.chomp.to_i
+        if user_input == 1
+            #run add books method
+        else
+            main_menu_list
+        end
+    end
+
+
+
+
+    # def create_shelf(active_user)
+    #     action = 0
+    #     until action == 2
+    #         puts "What would you like to name your new shelf?"
+    #         new_shelf_name = gets.chomp
+    #         #check to see if shelf name already exists - would find_or_create work better?
+    #         #Shelf.all.find_or_create_by
+    #         shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
+    #         if shelf
+    #             shelf_already_exists(active_user)
+    #         else
+    #             new_shelf_description = gets.chomp
+    #             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
+    #             active_user.shelves << my_new_shelf
+    #             active_user.save
+    #             #ask if they want to add books
+    #             text = <<-TEXT
+    #                 Would you like to add books to this shelf or move on?\n
+    #                 1. Add books\n
+    #                 2. Exit to Main Menu
+    #             TEXT
+    #             puts text
+    #             user_input = gets.chomp.to_i
+    #             if user_input == 1
+    #                 #run add books method
+    #             else
+    #                 main_menu_list
+    #             end
+    #         end
+    #     end
+    # end
+
 
