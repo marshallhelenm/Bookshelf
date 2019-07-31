@@ -81,7 +81,6 @@ class Book < ActiveRecord::Base
         else
             search_term = "#{author}+intitle+#{title}"
         end
-        
         search_term
     end
 
@@ -127,21 +126,19 @@ class Book < ActiveRecord::Base
             terms = Book.get_search_terms #grab search terms from user input
             search_term = format_search_term(terms) #format search term for use in api search
             book = Book.find_book_from_db(terms) #check for book in the database
-            if book != nil #if successfully found the book in the database do the below
-                book #return book
-                action = 3 #end the loop
+            if book #if successfully found the book in the database do the below
+                return book 
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
                 puts "Is it one of the below?"
                 puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
-                display_results(results)
+                Book.display_results(results)
                 action = gets.chomp.to_i
-                if action == 1
-                    book_num = Book.confirm_book #ask the user to tell us which book is the right one
-                    book = Book.create_from_api(results[book_num - 1]) #create book instance based on the api data for the indicated book (the number they indicated will be one higher than that books data index)
-                    book #return the book instance
-                    action = 3 #end the loop
+                if action == 1 #pick book and create instance then return book
+                    book_index = Book.confirm_book - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
+                    book = Book.create_from_api(results[book_index]) #create book instance based on the api data for the indicated book 
+                    return book
                 end
             end
         end

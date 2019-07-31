@@ -77,7 +77,7 @@ def log_in_sign_up
     active_user
 end
 
-#########################################################
+########################################################################
 
 def remove_book(shelf)
     puts "Which book should we remove? Please enter a number:"
@@ -87,7 +87,13 @@ def remove_book(shelf)
     shelf.remove_book(book) #calling the shelf instance method called remove_book
 end
 
-#modify shelf contents this might be a program method, it might be a shelf instance method. not sure which
+def add_book(shelf)
+    #takes a shelf instance, and calls on the shelf instance method, add_book
+    book = Book.find_book #will return a book instance if the user was successful, or nil if they gave up
+    shelf.add_book(book) if book
+end
+
+#modify shelf contents:
 def modify_contents(shelf)
     menu = <<-TXT What would you like to do?\n
         1. View Shelf Contents \n
@@ -95,36 +101,21 @@ def modify_contents(shelf)
         3. Add Book \n
         4. Main Menu \n
     TXT
+    #a stretch goal would be to add an option here to move a book to a different shelf
     puts menu
     until #something - probably when action = main menu
         action = gets.chomp
         case action #need to loop around this if statement to some extent
         when 1 
             view_shelf_contents(shelf) 
-        when 2 #remove book
+        when 2 
            remove_book(shelf)
             # (stretch to remove from all shelves at once)
         when 3
-            #add book
+            add_book(shelf) #either adds a book to a shelf or does nothing and returns us to the modify contents menu
         when 4 #return to main menu
             return quitter = false
         end
         puts menu 
     end
 end
-# i. which shelf?
-# show options:
-#     view contents  
-#         show options again
-#     remove book
-#         (stretch to remove from all shelves at once)
-#         which book? please enter a number.
-#         display contents with numbers
-#         gets.chomp
-#     add book
-#         find_book - gets book instance based on user input
-#         check if book on shelf already
-#         if not, add it.
-#         if it is, let them know and give options again
-#     (move book to different shelf - stretch)
-#     main menu
