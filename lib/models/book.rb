@@ -67,9 +67,9 @@ class Book < ActiveRecord::Base
 
     def Book.get_search_terms
         puts "Please enter a book title:"
-        title = gets.chomp
+        title = STDIN.gets.chomp
         puts "Please enter the author (or hit enter to skip):"
-        author = gets.chomp
+        author = STDIN.gets.chomp
         return [author, title]
     end
     
@@ -117,7 +117,7 @@ class Book < ActiveRecord::Base
 
     def Book.confirm_book
             puts "Which number?"      
-            book_num = gets.chomp.to_i #other stuff heeeeeere
+            book_num = STDIN.gets.chomp.to_i #other stuff heeeeeere
     end
 
     def Book.find_book
@@ -125,7 +125,7 @@ class Book < ActiveRecord::Base
         until action == 3 do
             terms = Book.get_search_terms #grab search terms from user input
             search_term = format_search_term(terms) #format search term for use in api search
-            book = Book.find_book_from_db(terms) #check for book in the database
+            book = Book.find_from_db(terms) #check for book in the database
             if book #if successfully found the book in the database do the below
                 return book 
             else #stuff to do if book not found in database
@@ -134,7 +134,7 @@ class Book < ActiveRecord::Base
                 puts "Is it one of the below?"
                 puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 Book.display_results(results)
-                action = gets.chomp.to_i
+                action = STDIN.gets.chomp.to_i
                 if action == 1 #pick book and create instance then return book
                     book_index = Book.confirm_book - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
                     book = Book.create_from_api(results[book_index]) #create book instance based on the api data for the indicated book 

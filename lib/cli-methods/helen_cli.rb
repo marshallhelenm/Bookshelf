@@ -2,7 +2,7 @@ def log_in_sign_up
     puts "Welcome to Bookshelf!"
     puts "1. Log in"
     puts "2. Sign up"
-    action = gets.chomp.to_i
+    action = STDIN.gets.chomp.to_i
     if action == 1
         active_user = log_in
     else
@@ -14,8 +14,8 @@ end
 def log_in
     logged_in = false
     until logged_in
-        "Please enter a username:"
-        username = gets.chomp
+        puts "Please enter a username:"
+        username = STDIN.gets.chomp
         active_user = User.all.find do |user|
             user.name == username
         end #will provide either a user instance, or nil
@@ -30,7 +30,7 @@ def log_in
             2. Sign up\n
             3. Exit program\n
             TXT
-            action = gets.chomp.to_i
+            action = STDIN.gets.chomp.to_i
             if action == 2
                 active_user = create_account
                 logged_in = true
@@ -45,18 +45,18 @@ end
 
 def sign_up
     active_user = nil
-    "Please enter a username:"
+    puts "Please enter a username:"
         until active_user
-            username = gets.chomp
+            username = STDIN.gets.chomp
             active_user = User.all.find do |user|
                 user.name == username
             end #will return either a user instance or nil
             if active_user 
-                "Oops! That username is taken! Please enter a different username:"
+                puts "Oops! That username is taken! Please enter a different username:"
             else
-                active_user = User.create(username)
-                wishlist = Shelf.create("My Wishlist")
-                read = Shelf.create("My Read Books")
+                active_user = User.create(name: username)
+                wishlist = Shelf.create(name: "My Wishlist")
+                read = Shelf.create(name: "My Read Books")
                 active_user.shelves << wishlist << read
                 active_user.save
                 "Welcome, #{username}!"

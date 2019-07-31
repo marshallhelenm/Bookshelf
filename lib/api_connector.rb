@@ -3,7 +3,7 @@ require 'json'
 require 'pry'
 
 # puts "Please enter a search term:"
-# search_term = gets.chomp -- cli stuff, we don't want to call this every time we are getting data or looking up info from the api
+# search_term = STDIN.gets.chomp -- cli stuff, we don't want to call this every time we are getting data or looking up info from the api
 
 def pull_from_api(search_term)
     string_response = RestClient.get("https://www.googleapis.com/books/v1/volumes?q=#{search_term}&printType=books&projection=lite&orderBy=relevance&maxResults=5&startIndex=0&fields=items(selfLink,volumeInfo(title,authors,description))")
