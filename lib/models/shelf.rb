@@ -7,7 +7,6 @@ class Shelf < ActiveRecord::Base
     #methods to build:
     #books on shelf - should be inherent to the has_many statement - possibly
     #rename shelf
-    #create/delete shelf - this is just built in
     #create shelf with random books of a genre or author or whatevs (stretch)
     #authors on shelf
 
@@ -21,6 +20,13 @@ class Shelf < ActiveRecord::Base
             book.author
         end
         authors.uniq
+    end
+
+    def remove_book(book)
+        connection = Shelfjoin.all.find do |join|
+            shelf_id == shelf.id && book_id == book.id
+        end
+        connection.delete
     end
 
     def add_book(book)#accepts a book instance - so this is really a helper method

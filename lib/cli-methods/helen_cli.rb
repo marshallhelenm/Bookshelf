@@ -64,8 +64,6 @@ def create_account
     active_user
 end
 
-
-
 def log_in_sign_up
     puts "Welcome to Bookshelf!"
     puts "1. Log in"
@@ -79,15 +77,14 @@ def log_in_sign_up
     active_user
 end
 
-def remove_book(shelf) #should this be a shelf instance method?
+#########################################################
+
+def remove_book(shelf)
     puts "Which book should we remove? Please enter a number:"
     view_shelf_contents(shelf)
     book_index = gets.chomp.to_i - 1
     book = shelf.books[book_index]
-    connection = Shelfjoin.all.find do |join|
-        shelf_id == shelf.id && book_id == book.id
-    end
-    connection.delete
+    shelf.remove_book(book) #calling the shelf instance method called remove_book
 end
 
 #modify shelf contents this might be a program method, it might be a shelf instance method. not sure which
@@ -109,8 +106,8 @@ def modify_contents(shelf)
             # (stretch to remove from all shelves at once)
         when 3
             #add book
-        when 4
-            #return to main menu somehoooow
+        when 4 #return to main menu
+            return quitter = false
         end
         puts menu 
     end
