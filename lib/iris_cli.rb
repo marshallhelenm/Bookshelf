@@ -20,7 +20,7 @@
 
 # when userinput == view shelf list option ->
     # find the user shelves using user id == self
-    # iterate through list of shelves and print with indexes
+    # iterate through list of shelves and print with indices (plus 1)
 # now puts a message with numbered options for user actions
     # 1 - ? are equivalent to the printed list - selecting takes the user to the next step
     # last option is to exit to main menu
@@ -31,3 +31,9 @@
     # 3. Modify contents (different method) - specify (add/delete books)
     # 4. Exit to main menu
     # get user input
+
+    def view_shelf(user_id)
+        # find the user shelves using user id == self
+        Shelfjoin.all.find_by(user.id == user.id)
+        # iterate through list of shelves and print with indices (plus 1)
+    end
