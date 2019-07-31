@@ -4,18 +4,20 @@ def menu_option_four(active_user)
     to_menu = false
     until to_menu == true
         action = menu_four #(shows menu and gets action)
-        to_menu = menu_four_perform(action)
+        to_menu = menu_four_perform(action, active_user)
     end 
 end
 
 def menu_four
     menu = <<-MENU
+        Modify Shelves\n\n
         1. Create a Shelf\n
         2. Delete a Shelf\n
         3. Modify a Shelf\n
         4. Main Menu
         MENU
-        action = gets.chomp.to_i
+    puts menu
+        action = STDIN.gets.chomp.to_i
 end
 
 def menu_four_perform(action, active_user)
@@ -23,7 +25,9 @@ def menu_four_perform(action, active_user)
     when 1 
         #create shelf
     when 2 
-        #delete shelf
+        #show shelf list
+        #ask which shelf
+        #call delete_shelf
     when 3 
         shelf_options(active_user)
     when 4
@@ -46,7 +50,8 @@ def shelf_options(active_user) #main thing we run under main menu option 4
 end
 
 def modify_shelf_menu #returns a menu action
-    menu = <<-TXT What would you like to do?\n
+    menu = <<-TXT 
+        What would you like to do?\n\n
         1. View Shelf Contents \n
         2. Remove Book \n
         3. Add Book \n
@@ -60,18 +65,13 @@ end
 
 def print_shelf_list(active_user)
     active_user.shelves.each_with_index do |shelf, index|
-        if shelf == user.shelves[-1]
-            puts "#{index + 1}. #{shelf.name}"
-            puts "#{index + 2}. Exit to Main Menu"
-        else
-            puts "#{index + 1}. #{shelf.name}"
-        end
+        puts "#{index + 1}. #{shelf.name}"
     end
 end
 
 def choose_shelf #this method returns a shelf instance
     puts "Choose a shelf"
-    user_input = gets.chomp.to_i
+    user_input = STDIN.gets.chomp.to_i
     shelf_choice = active_user.shelves[user_input - 1]
 end
 
@@ -95,6 +95,7 @@ def modify_shelf(shelf, action) #takes in a shelf instance
 end
 
 def view_shelf_contents(shelf)
+    puts "You don't have any books on this shelf yet!\n\n" if shelf.books.empty?
     shelf.books.each_with_index do |book, index|
         puts "#{index + 1}. #{book.title} by #{book.author.name}"
     end

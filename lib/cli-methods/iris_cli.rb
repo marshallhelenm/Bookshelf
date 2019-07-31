@@ -1,17 +1,3 @@
-
-    # #helper method
-    # def shelf_menu(shelf_choice) #returns the user's action choice
-    #     menu = <<-MENU
-    #         You have selected #{shelf_choice.name}\n
-    #         What would you like to do?\n
-    #         1. View shelf contents\n
-    #         2. Modify shelf\n
-    #         3. Exit to main menu
-    #     MENU
-    #     puts menu
-    #     action = gets.chomp.to_i
-    # end
-
     #helper method if the user tries to create a shelf that is already in the database
     def shelf_already_exists(active_user)
         text = <<-TEXT
@@ -21,7 +7,7 @@
                 2. Try a new shelf name
         TEXT
         puts text
-        action = gets.chomp.to_i
+        action = STDIN.gets.chomp.to_i
     end
 
     #take in user input after getting shelf exists error
@@ -34,17 +20,26 @@
         end
     end
 
+
+    def create_shelf_macro(active_user)
+        shelf_name = ask_user_for_new_shelf
+        create_new_shelf(shelf_name, active_user)
+        # Your new shelf is called xxxx
+        #return modify shelves menu
+    end
+
     def ask_user_for_new_shelf
         puts "What would you like to name your new shelf?"
-        new_shelf_name = gets.chomp
+        new_shelf_name = STDIN.gets.chomp
     end
 
     def create_new_shelf(new_shelf_name, active_user)
         shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
         if shelf
-            shelf_already_exists(active_user)
+            action = shelf_already_exists(active_user)
+            action_for_shelf_exists(action)
         else
-            new_shelf_description = gets.chomp
+            new_shelf_description = STDIN.gets.chomp
             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
             active_user.shelves << my_new_shelf
             active_user.save
@@ -58,7 +53,7 @@
                     2. Exit to Main Menu
                 TEXT
         puts text
-        user_input = gets.chomp.to_i
+        user_input = STDIN.gets.chomp.to_i
         if user_input == 1
             #run add books method
         else
@@ -71,7 +66,7 @@
         shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
         if shelf
             puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
-            action = gets.chomp
+            action = STDIN.gets.chomp
             if action == 'y'
                 shelf.delete
             end
@@ -136,14 +131,14 @@
     #     action = 0
     #     until action == 2
     #         puts "What would you like to name your new shelf?"
-    #         new_shelf_name = gets.chomp
+    #         new_shelf_name = STDIN.gets.chomp
     #         #check to see if shelf name already exists - would find_or_create work better?
     #         #Shelf.all.find_or_create_by
     #         shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
     #         if shelf
     #             shelf_already_exists(active_user)
     #         else
-    #             new_shelf_description = gets.chomp
+    #             new_shelf_description = STDIN.gets.chomp
     #             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
     #             active_user.shelves << my_new_shelf
     #             active_user.save
@@ -154,7 +149,7 @@
     #                 2. Exit to Main Menu
     #             TEXT
     #             puts text
-    #             user_input = gets.chomp.to_i
+    #             user_input = STDIN.gets.chomp.to_i
     #             if user_input == 1
     #                 #run add books method
     #             else
