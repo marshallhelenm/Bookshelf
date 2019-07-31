@@ -26,7 +26,11 @@ book_array << Book.format_search_term(["Homer", "The Odyssey"])
 book_array << Book.format_search_term(["Marquez", "One Hundred Years of Solitude"])
 book_array << Book.format_search_term(["Dostoyevsky", "Brothers Karamazov"])
 book_array << Book.format_search_term(["Homer", "Iliad"])
-book_array << Book.format_search_term(["Dostoyevsky", "Crime And Punishment"])
+book_array << Book.format_search_term(["Dostoevsky", "Crime And Punishment"])
+
+
+book_data = Book.find_from_api(book_array[5])
+Book.create_from_api(book_data.first)
     
 binding.pry
 puts test

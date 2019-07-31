@@ -54,8 +54,9 @@ class Book < ActiveRecord::Base
         if author == ""
             search_term = "intitle+#{title}"
         else
-            search_term = "intitle+#{title}+inauthor+#{author}"
+            search_term = "#{author}+intitle+#{title}"
         end
+        
         search_term
     end
 
@@ -80,7 +81,7 @@ class Book < ActiveRecord::Base
         author_name = terms[0].downcase
         title = terms[1].downcase
         book = Book.all.find do |book| 
-            book.title.downcase.include?(title) && book.get_author(author_name).name.downcase.include?(author_name)
+            book.title.downcase.include?(title) || book.get_author(author_name).name.downcase.include?(author_name)
         end
     end
 
@@ -120,13 +121,29 @@ class Book < ActiveRecord::Base
                 action = gets.chomp.to_i
                 if action == 1
                     book_num = Book.confirm_book
-                    #create book instance & return it and 
+                    #then create book instance & return it and 
                 end
             end
         end
 
     end
 
+    def Book.create_from_api(book_data)
+        #takes in api data for a book
+        #adds a book to the database using api info
+        #assigns an author, and creates one if needed
+       
+        #author biz:
+        #search for author:
+        auth_inst = Author.all.find do |author|
+            author.name == book_data["volumeInfo"]["authors"][0]
+        end        
+        if auth_inst == nil
+            auth_inst = Author.create(name: book_data["volumeInfo"]["authors"][0])
+        end
+         #create book instance:
+         book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id)
+    end
 
     #methods for testing purposes
     
