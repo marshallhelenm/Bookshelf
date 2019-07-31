@@ -43,6 +43,7 @@
             main_menu_list
         else
             shelf_choice = active_user.shelves[user_input - 1]
+            #shelf menu method maybe
             menu = <<-MENU
                 You have selected #{shelf_choice.name}\n
                 What would you like to do?\n
@@ -162,6 +163,7 @@
 
 
     def create_shelf(active_user)
+        puts "What would you like to name your new shelf?"
         new_shelf_name = gets.chomp
         #check to see if shelf name already exists - would find_or_create work better?
         if Shelf.all.select {|shelf| shelf.name == new_shelf_name }.empty?
@@ -169,6 +171,18 @@
             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
             active_user.shelves << my_new_shelf
             active_user.save
+            #ask if they want to add books
+            text = <<-TEXT
+                1. Add books to shelf\n
+                2. Exit to Main Menu
+            TEXT
+            puts text
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                #run add books method
+            else
+                main_menu_list
+            end
         else
             text = <<-TEXT
                 Oops! That shelf already exists!\n
@@ -176,6 +190,12 @@
                 2. Try again
             TEXT
             puts text
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                #run shelf menu method
+            else
+                create_shelf(active_user)
+            end
         end
     end
 
