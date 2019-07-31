@@ -1,3 +1,34 @@
+
+
+def menu_option_four(active_user)
+    to_menu = false
+    until to_menu == true
+        action = menu_four #(shows menu and gets action)
+        menu_four_perform(action)
+
+    end 
+end
+
+def menu_four
+        #show them a menu:
+        # create shelf
+        # delete shelf
+        # modify shelf (run shelf_options)
+        #main menu (return to_menu = true)
+        #get action
+        #return action
+end
+
+def menu_four_perform(action, active_user)
+    case action
+    when 1 #create shelf
+    when 2 #delete shelf
+    when 3 shelf_options(active_user)
+    end
+end
+
+
+
 def shelf_options(active_user) #main thing we run under main menu option 4
     print_shelf_list(active_user) # print list of all user's shelves
     shelf_choice = choose_shelf # get user to select a shelf to interact with
@@ -8,6 +39,19 @@ def shelf_options(active_user) #main thing we run under main menu option 4
         modify_shelf(shelf_choice, action)
         # choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
+end
+
+def modify_shelf_menu #returns a menu action
+    menu = <<-TXT What would you like to do?\n
+        1. View Shelf Contents \n
+        2. Remove Book \n
+        3. Add Book \n
+        4. Rename Shelf \n
+        5. Main Menu \n
+    TXT
+    #a stretch goal would be to add an option here to move a book to a different shelf
+    puts menu
+    action = gets.chomp.to_i
 end
 
 def print_shelf_list(active_user)
@@ -27,18 +71,7 @@ def choose_shelf #this method returns a shelf instance
     shelf_choice = active_user.shelves[user_input - 1]
 end
 
-def modify_shelf_menu #returns a menu action
-    menu = <<-TXT What would you like to do?\n
-        1. View Shelf Contents \n
-        2. Remove Book \n
-        3. Add Book \n
-        4. Rename Shelf \n
-        5. Main Menu \n
-    TXT
-    #a stretch goal would be to add an option here to move a book to a different shelf
-    puts menu
-    action = gets.chomp.to_i
-end
+
 
 def modify_shelf(shelf, action) #takes in a shelf instance
     case action #need to loop around this if statement to some extent

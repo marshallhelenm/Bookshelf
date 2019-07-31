@@ -30,8 +30,7 @@
         when 3 #view all shelves
             print_shelf_list(active_user)
         when 4 #modify shelves
-            shelf_options(active_user)
-            # modify_shelf(shelf)
+            menu_option_four
         when 5 #search books
             Book.find_book
         when 6 #search author
