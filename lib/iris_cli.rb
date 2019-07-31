@@ -32,7 +32,7 @@
     # 4. Exit to main menu
     # get user input
 
-    def view_shelf(user)
+    def view_shelves(user)
         # iterate through list of shelves and print with indices
         print_shelf_list(user)
 
@@ -40,7 +40,7 @@
         user_input = gets.chomp.to_i
 
         if user_input == shelf.length + 1
-            # exit to main menu
+            main_menu_list
         else
             shelf_choice = user.shelves[user_input - 1] 
             puts "You have selected #{shelf_choice.name}"
@@ -52,17 +52,16 @@
             new_user_input = gets.chomp.to_i
             case new_user_input
             when 1
-                #separate method
                 view_shelf_contents(shelf_choice)
             when 2
                 #separate method modify shelf
             when 3
                 #separate method modify contents
             when 4
-                #code to run main menu
+                main_menu_list
             end
         else
-            #code to run main menu (after welcome and signup/login screen)
+            main_menu_list
         end
     end
 
@@ -87,30 +86,9 @@
     end
 
 
-    #attempt at pseudocode to exit to main menu
-    def return_to_main_menu #rename just main menu
-        #should restart the program from the point after login/signup
+    def main_menu_list #rename just main menu
+        #should start the program from the point after login/signup
         #where user is being given a list of what they can do
-        #1. View my Wishlist
-        # 2. View my Read Books 
-        # 3. View Shelf List 
-        #     a. select a shelf
-        #         i. view contents
-        #         ii. modify shelf
-        #         iii. modify contents
-        # 4. Modify shelves
-        #     a. create Shelf
-        #     b. delete shelf 
-        #         i. which shelf?
-        #     c. rename shelf
-        #         i. which shelf?
-        #     d. modify contents
-        #         i. which shelf?
-        # 5. Search books 
-        #     a. add to a shelf
-        #     b. search again
-        # 6. Search author (stretch)
-        # 7. Exit
         menu_text = <<-MENU
             1. View my Wishlist
             2. View my Read Books
@@ -120,20 +98,33 @@
             6. Search Author
             7. Exit
             MENU
+        puts "What would you like to do?"
         puts menu_text
         #now we need to get an input from the user
         user_input = gets.chomp.to_i
+    end
+
+    def main_menu_action(user, user_input)
         while user_input != 7
-        case user_input 
-        when 1
-            view_shelf_contents(#wishlist?)
-        when 2
-            view_shelf_contents(#read_books?)
-        when 3
-            view_shelf(#need user instance at this point)
-        when 4
-        when 5
-        when 6
+            case user_input
+            when 1
+                wishlist = user.shelves.find do |shelf|
+                    shelf.name == "My Wishlist"
+                end
+                view_shelf_contents(wishlist)
+            when 2
+                read = user.shelves.find do |shelf|
+                    shelf.name == "My Read Books"
+                view_shelf_contents(read)
+            when 3
+                view_shelves(user)
+            when 4
+                #need to write the modify shelves stuff
+            when 5
+                #search books
+                Book.find_book
+            when 6
+                #search author - need to write (stretch goal)
+            end
         end
-            
     end
