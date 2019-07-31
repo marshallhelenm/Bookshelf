@@ -57,6 +57,7 @@ def create_account
                 wishlist = Shelf.create("My Wishlist")
                 read = Shelf.create("My Read Books")
                 active_user.shelves << wishlist << read
+                active_user.save
                 "Welcome, #{username}!"
             end
         end
@@ -82,5 +83,46 @@ end
 
 #modify shelf contents this might be a program method, it might be a shelf instance method. not sure which
 def modify_contents(shelf)
-    
+    puts <<-TXT What would you like to do?\n
+        1. View Shelf Contents \n
+        2. Remove Book \n
+        3. Add Book \n
+        4. Main Menu \n
+    TXT
+    action = gets.chomp
+    case action #need to loop around this if statement to some extent
+    when 1 
+        view_shelf_contents(shelf) 
+    when 2 #remove book
+        puts "Which book should we remove? Please enter a number."
+        view_shelf_contents(shelf)
+        book_index = gets.chomp.to_i - 1
+        book = shelf.books[book_index]
+        connection = Shelfjoin.all.find do |join|
+            shelf_id == shelf.id && book_id == book.id
+        end
+        connection.delete
+        # (stretch to remove from all shelves at once)
+    when 3
+        #add book
+    when 4
+        #return to main menu somehoooow
+    end
+
 end
+# i. which shelf?
+# show options:
+#     view contents  
+#         show options again
+#     remove book
+#         (stretch to remove from all shelves at once)
+#         which book? please enter a number.
+#         display contents with numbers
+#         gets.chomp
+#     add book
+#         find_book - gets book instance based on user input
+#         check if book on shelf already
+#         if not, add it.
+#         if it is, let them know and give options again
+#     (move book to different shelf - stretch)
+#     main menu
