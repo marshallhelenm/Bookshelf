@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
         shelf.add_book_by_name
     end
 
+    def books
+        self.shelves.collect do |shelf|
+            shelf.books
+        end.flatten
+    end
+
     
     #methods to build:
     #create a shelf
