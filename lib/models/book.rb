@@ -131,9 +131,9 @@ class Book < ActiveRecord::Base
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
-                puts "Is it one of the below?"
-                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 Book.display_results(results)
+                puts "Is it one of the above?"
+                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 action = STDIN.gets.chomp.to_i
                 if action == 1 #pick book and create instance then return book
                     book_index = Book.confirm_book - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
