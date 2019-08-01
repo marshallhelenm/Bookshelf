@@ -1,4 +1,4 @@
-
+#Main Menu Option 4
 
 def menu_option_four(active_user)
     to_menu = false
@@ -24,7 +24,7 @@ def menu_four_perform(action, active_user)
     case action
     when 1 
         #create shelf
-    when 2 
+    when 2  #delete shelf
         #show shelf list
         #ask which shelf
         #call delete_shelf
@@ -40,7 +40,6 @@ end
 def shelf_options(active_user) #main thing we run under main menu option 4
     print_shelf_list(active_user) # print list of all user's shelves
     shelf_choice = choose_shelf # get user to select a shelf to interact with
-    # shelf_menu(shelf_choice) # print options for how user can interact with the shelf
     to_menu = false
     until to_menu == true
         action = modify_shelf_menu #returns a user action
@@ -51,7 +50,7 @@ end
 
 def modify_shelf_menu #returns a menu action
     menu = <<-TXT 
-        What would you like to do?\n\n
+        \n\nWhat would you like to do?\n\n
         1. View Shelf Contents \n
         2. Remove Book \n
         3. Add Book \n

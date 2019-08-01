@@ -1,0 +1,23 @@
+Main Menu
+1. View my Wishlist
+2. View my Read Books 
+3. View Shelves
+    Pretty print a list of their shelf names
+4. Modify shelves (see modify_shelf_story file)
+    a. create Shelf
+    b. delete shelf 
+    c. modify contents
+        i.
+    d. main menu
+5. Search books 
+    run find_book and save result to a variable
+    ask the user what they want to do with that book
+    a. add to a shelf
+        which shelf?
+        list shelf names, last option is "New Shelf"
+        add to appropriate shelf, or prompt for new shelf name
+            create shelf, associate book to it
+    b. search again
+    c. exit to main menu
+6. My Stats (stretch)
+7. Exit - ends loop and exits program

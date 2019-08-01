@@ -12,12 +12,13 @@ end
 
 def main_menu_list
     menu_text = <<-MENU
+        \n
         1. View my Wishlist\n
         2. View my Read Books\n
-        3. View my Shelf List\n
+        3. View Shelves and Books\n
         4. Modify Shelves\n
         5. Search Books\n
-        6. Search Author\n
+        6. My Stats (Under Construction)\n
         7. Exit
         MENU
     puts "What would you like to do?\n\n"
@@ -38,15 +39,20 @@ def main_menu_action(active_user, action)
             shelf.name == "My Read Books"
         end
         view_shelf_contents(read)
-    when 3 #view all shelves
+    when 3 #view shelves
+        #"Enter a shelf number to view its books."
         print_shelf_list(active_user)
+        #add option to end of shelf list to return to menu
+        #get their response
+        #either return to menu or
+        # print books then show shelf list again
     when 4 #modify shelves
         menu_option_four(active_user)
     when 5 #search books
         Book.find_book #returns book instance
         #need to prompt user for what to do with the book
         #do those things
-    when 6 #search author
+    when 6 #my stats
         #(stretch goal)
     when 7 #exits the loop in our bookshelfcli.rb file
         to_menu = true     
