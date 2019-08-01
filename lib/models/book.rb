@@ -97,7 +97,7 @@ class Book < ActiveRecord::Base
         author_name = terms[0].downcase
         title = terms[1].downcase
         book = Book.all.find do |book| 
-            book.title.downcase.include?(title) || book.author.name.downcase.include?(author_name)
+            book.title.downcase.include?(title) && book.author.name.downcase.include?(author_name)
         end
     end
 
@@ -109,8 +109,12 @@ class Book < ActiveRecord::Base
         display_array.each_with_index do |result, index|
             puts "#{index+1}."
             puts "Title: #{result["title"]}"
-            puts "Author: #{result["authors"].join(", ")}"
-            puts "Description: #{result["description"]}"
+            if result["authors"]
+                puts "Author: #{result["authors"].join(", ")}"
+                puts "Description: #{result["description"]}"
+            else
+                puts "Description: #{result["description"]}"
+            end
         end
 
     end
