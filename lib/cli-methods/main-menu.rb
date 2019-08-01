@@ -40,12 +40,7 @@ def main_menu_action(active_user, action)
         end
         view_shelf_contents(read)
     when 3 #view shelves
-        #"Enter a shelf number to view its books."
-        print_shelf_list(active_user)
-        #add option to end of shelf list to return to menu
-        #get their response
-        #either return to menu or
-        # print books then show shelf list again
+        menu_option_three(active_user)
     when 4 #modify shelves
         menu_option_four(active_user)
     when 5 #search books
