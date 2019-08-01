@@ -24,7 +24,6 @@
     def create_shelf_macro(active_user)
         shelf_name = ask_user_for_new_shelf
         create_new_shelf(shelf_name, active_user)
-        puts "\n\nYour new shelf #{shelf_name} has been successfully created!"
     end
 
     def ask_user_for_new_shelf
@@ -44,6 +43,7 @@
             active_user.shelves << my_new_shelf
             active_user.save
         end
+        puts "\n\nYour new shelf #{my_new_shelf.name} has been successfully created!"
     end
 
     def add_books_to_new_shelf
