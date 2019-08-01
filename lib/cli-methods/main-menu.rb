@@ -18,16 +18,15 @@ end
 
 def main_menu_list
     menu_text = <<-MENU
-        \n
-        1. View my Wishlist\n
-        2. View my Read Books\n
-        3. View Shelves and Books\n
-        4. Modify Shelves\n
-        5. Search Books\n
-        6. My Stats (Under Construction)\n
-        7. Exit
-        MENU
-    puts "\n\nWhat would you like to do?\n"
+    1. View my Wishlist
+    2. View my Read Books
+    3. View Shelves and Books
+    4. Modify Shelves
+    5. Search Books
+    6. My Stats (Under Construction)
+    7. Exit
+    MENU
+    puts "\n\nWhat would you like to do?\n\n"
     puts menu_text
     action = STDIN.gets.chomp.to_i
 end

@@ -49,6 +49,11 @@ class Shelf < ActiveRecord::Base
         end 
     end
 
+    def edit_description(description)
+        self.description = description
+        self.save
+    end
+
     # def add_book_by_name(book_name)
     #     #find or create book by name
     #     newbook = Book.all.find_by name: book_name

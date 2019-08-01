@@ -1,9 +1,11 @@
 #first thing that runs!
 def log_in_sign_up
     welcome
-    puts "1. Log in"
-    puts "2. Sign up"
-    puts "3. Quit"
+    puts <<-LIST
+    1. Log in
+    2. Sign up
+    3. Quit
+    LIST
     action = STDIN.gets.chomp.to_i
     if action == 1
         active_user = log_in
@@ -19,22 +21,22 @@ end
 def log_in
     logged_in = false
     until logged_in
-        puts "Please enter a username:"
+        puts "\nPlease enter a username:\n"
         username = STDIN.gets.chomp
         active_user = User.all.find do |user|
             user.name == username
         end #will provide either a user instance, or nil
         if active_user #if it's truthy, that is
             logged_in = true
-            puts "Welcome #{username}!"
+            puts "\nWelcome #{username}!"
             return active_user
         else
             puts <<-TXT 
-            Sorry, I couldn't find a user by that name!\n
-            1. Try again\n
-            2. Sign up\n
-            3. Exit program\n
-            TXT
+    \nSorry, I couldn't find a user by that name!\n
+    1. Try again
+    2. Sign up
+    3. Exit program
+    TXT
             action = STDIN.gets.chomp.to_i
             if action == 2
                 active_user = sign_up
@@ -49,22 +51,29 @@ end
 
 def sign_up
     active_user = nil
-    puts "Please enter a username or 'quit' to quit:"
+    puts "\nPlease enter a username or 'quit' to quit:\n"
         until active_user
             username = STDIN.gets.chomp
-            return if username.downcase.include?('quit')
+            if username.downcase.include?('quit')
+                goodbye
+                exit! #exit method if they enter quit
+            end
+
             active_user = User.all.find do |user|
                 user.name == username
             end #will return either a user instance or nil
+
             if active_user 
-                puts "Oops! That username is taken! Please enter a different username:"
+                puts "Oops! That username is taken! Please enter a different username:\n"
+                active_user = nil
             else
                 active_user = User.create(name: username)
                 wishlist = Shelf.create(name: "My Wishlist")
                 read = Shelf.create(name: "My Read Books")
                 active_user.shelves << wishlist << read
                 active_user.save
-                puts "\n\nWelcome, #{username}! Your account has been created."
+                puts "\n\nWelcome, #{username}! Your account has been created.\n"
+                STDIN.gets.chomp
             end
         end
     active_user
@@ -82,7 +91,7 @@ def welcome
 |  |   |__|  \\.'\\ |   |_|__|  |~~~|__|
 |  |===|--|   \\.'\\|===|~|--|%%|~~~|--|
 ^--^---'--^    `-'`---^-^--^--^---'--'
-\n      "Welcome to Bookshelf!\n
+\n      Welcome to Bookshelf!\n
     ASC
 end
 
@@ -94,7 +103,7 @@ puts <<-BYE
             // ~ ~ ~~ | ~~~ ~~ \\\\      
            //________.|.________\\\\     
           `----------`-'----------'
-          Thanks for using Bookshelf!
+        Thank you for using Bookshelf!
 
 BYE
 end

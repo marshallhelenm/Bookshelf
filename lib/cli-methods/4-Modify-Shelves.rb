@@ -10,10 +10,10 @@ end
 
 def menu_four
     menu = <<-MENU
-        Modify Shelves\n\n
-        1. Create a Shelf\n
-        2. Delete a Shelf\n
-        3. Modify a Shelf\n
+        Modify Shelves\n
+        1. Create a Shelf
+        2. Delete a Shelf
+        3. Modify a Shelf
         4. Menu
         MENU
     puts menu
@@ -50,12 +50,13 @@ end
 
 def modify_shelf_menu #returns a menu action
     menu = <<-TXT 
-        \n\nWhat would you like to do?\n\n
-        1. View Shelf Contents \n
-        2. Remove Book \n
-        3. Add Book \n
-        4. Rename Shelf \n
-        5. Return \n
+        \n\nWhat would you like to do?\n
+        1. View Shelf Contents 
+        2. Remove Book 
+        3. Add Book 
+        4. Rename Shelf 
+        5. Edit Shelf Description
+        6. Return \n
     TXT
     #a stretch goal would be to add an option here to move a book to a different shelf
     puts menu
@@ -63,6 +64,7 @@ def modify_shelf_menu #returns a menu action
 end
 
 def print_shelf_list(active_user)
+    puts ""
     active_user.shelves.each_with_index do |shelf, index|
         puts "#{index + 1}. #{shelf.name}"
     end
@@ -93,7 +95,10 @@ def modify_shelf(action, active_user) #takes in a shelf instance
         shelf_choice = choose_shelf(active_user)
         rename_shelf(shelf_choice) # get user to select a shelf to interact with
         #rename shelf(shelf_choice)
-    when 5 #return to main menu
+    when 5 #edit shelf description
+        shelf_choice = choose_shelf(active_user)
+        edit_shelf_description(shelf_choice)
+    when 6 #return to main menu
         to_menu = true
     end
     to_menu
@@ -123,6 +128,18 @@ def rename_shelf(shelf) #takes a shelf instance
     end
 end
 
+def edit_shelf_description(shelf) #takes a shelf instance
+    puts "Here is your current description:\n"
+    puts shelf.description
+    puts "\nPlease enter a new description for your #{shelf.name} shelf:\n"
+    new_description = STDIN.gets.chomp
+    puts "Here is your new description:\n #{new_description}\n Proceed? (y/n)\n"
+    action = STDIN.gets.chomp
+    if action == "y"
+        shelf.edit_description(new_description)
+        puts "Description has been updated!"
+    end
+end
 
 #helper method if the user tries to create a shelf that is already in the database
     def shelf_already_exists(active_user)
