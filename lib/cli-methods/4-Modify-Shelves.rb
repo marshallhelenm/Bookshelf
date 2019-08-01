@@ -27,6 +27,7 @@ def menu_four_perform(action, active_user)
     when 2
         print_shelf_list(active_user)
         shelf_choice = choose_shelf
+        delete_shelf(shelf_choice)
         #show shelf list
         #ask which shelf
         #call delete_shelf
