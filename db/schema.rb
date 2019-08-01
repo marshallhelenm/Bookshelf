@@ -10,32 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 5) do
-
-  create_table "authors", force: :cascade do |t|
-    t.string "name"
-  end
-
-  create_table "books", force: :cascade do |t|
-    t.string "title"
-    t.string "genre"
-    t.integer "author_id"
-    t.string "api_url"
-  end
-
-  create_table "shelfjoins", force: :cascade do |t|
-    t.integer "shelf_id"
-    t.integer "book_id"
-  end
-
-  create_table "shelves", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "name"
-  end
+ActiveRecord::Schema.define(version: 0) do
 
 end

@@ -62,7 +62,7 @@ class Book < ActiveRecord::Base
         end
         
          #create book instance:
-         book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id)
+         book = Book.create(title: book_data["volumeInfo"]["title"], api_url: book_data["selfLink"], author_id: auth_inst.id, description: book_data["volumeInfo"]["description"])
     end
 
     def Book.get_search_terms
@@ -132,6 +132,11 @@ class Book < ActiveRecord::Base
             book = Book.find_from_db(terms) #check for book in the database
             if book #if successfully found the book in the database do the below
                 return book 
+                book.display_db_book_info
+                puts "Is this the right book?"
+                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
+                action = STDIN.gets.chomp.to_i
+                return book if action == 1
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
@@ -149,29 +154,30 @@ class Book < ActiveRecord::Base
 
     end
 
-    # def display_db_book_info
-    #     info = <<-INFO
-    #         Title: #{book.title}
-    #         Author: #{book.author}
-    #         Description: #{book.description}
-    #     INFO
-    # end
-
-
-
-    
-    
-    #methods for testing purposes
-    
-    def Book.get_random_book(book_array) #book array will need to be made up of search terms
-        books = book_array.map do |search_term|
-            pull_one_from_api(search_term)
-        end.flatten
-        books.each do |book|
-            binding.pry
-            Book.create(title: book["volumeInfo"]["title"], api_url: book["selfLink"])
-        end
+    def display_db_book_info
+        info = <<-INFO
+            Title: #{book.title}
+            Author: #{book.author}
+            Description: #{book.description}\n
+        INFO
+        puts info
     end
+
+
+
+    
+    
+    # #methods for testing purposes
+    
+    # def Book.get_random_book(book_array) #book array will need to be made up of search terms
+    #     books = book_array.map do |search_term|
+    #         pull_one_from_api(search_term)
+    #     end.flatten
+    #     books.each do |book|
+    #         binding.pry
+    #         Book.create(title: book["volumeInfo"]["title"], api_url: book["selfLink"])
+    #     end
+    # end
     
 
 end
