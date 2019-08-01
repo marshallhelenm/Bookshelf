@@ -38,6 +38,7 @@
             action = shelf_already_exists(active_user)
             action_for_shelf_exists(action)
         else
+            puts "Please enter a description for your new bookshelf #{new_shelf_name} or press 'enter' to skip."
             new_shelf_description = STDIN.gets.chomp
             my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
             active_user.shelves << my_new_shelf
