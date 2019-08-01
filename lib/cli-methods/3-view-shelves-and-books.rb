@@ -4,7 +4,7 @@ def menu_option_three(active_user)
     until action == menu
         puts "Enter a shelf number to view its contents:"
         print_shelf_list(active_user)
-        puts "#{menu}. Return to Menu"
+        puts "  #{menu}. Return to Menu"
         action = STDIN.gets.chomp.to_i
         if action == menu
             return #to_menu = true

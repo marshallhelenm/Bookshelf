@@ -66,12 +66,12 @@ end
 def print_shelf_list(active_user)
     puts ""
     active_user.shelves.each_with_index do |shelf, index|
-        puts "#{index + 1}. #{shelf.name}"
+        puts "  #{index + 1}. #{shelf.name}"
     end
 end
 
 def choose_shelf(active_user) #this method returns a shelf instance
-    puts "Choose a shelf"
+    puts "\nChoose a shelf"
     print_shelf_list(active_user)
     action = STDIN.gets.chomp.to_i
     shelf_choice = active_user.shelves[action - 1]

@@ -32,7 +32,7 @@ class Shelf < ActiveRecord::Base
     def add_book_to_shelf(book)#accepts a book instance - so this is really a helper method
         self.books << book
         self.save
-        puts "You have successfully added #{book.title} to your shelf #{self.name}."
+        puts "\nYou have successfully added #{book.title} to your shelf #{self.name}.\n"
         puts "Shelf contents: "
         self.view_shelf_contents
     end
@@ -41,7 +41,7 @@ class Shelf < ActiveRecord::Base
         if self.books.empty?
             puts "\n\nYou don't have any books on this shelf yet!\n\n" 
         else
-            puts "\n\n#{self.name}:\n\n"
+            puts "\n#{self.name}:\n\n"
             self.books.each_with_index do |book, index|
                 puts "#{index + 1}. #{book.title} by #{book.author.name}"
             end

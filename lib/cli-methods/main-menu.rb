@@ -18,6 +18,9 @@ end
  
 def main_menu_list
     menu_text = <<-MENU
+    \n
+    MAIN MENU
+\nWhat would you like to do?\n
     1. View my Wishlist
     2. View my Read Books
     3. View Shelves and Books
@@ -26,7 +29,6 @@ def main_menu_list
     6. My Stats (Under Construction)
     7. Exit
     MENU
-    puts "\n\nWhat would you like to do?\n\n"
     puts menu_text
     action = STDIN.gets.chomp.to_i
 end
@@ -53,6 +55,8 @@ def main_menu_action(active_user, action)
         book = Book.find_book #returns book instance
         #need to prompt user for what to do with the book
         #do those things
+        return if !book
+        book.display_db_book_info
         action = found_book_action_menu(book)
         found_book_action(book, action, active_user)
     when 6 #my stats

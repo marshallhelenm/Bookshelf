@@ -107,16 +107,24 @@ class Book < ActiveRecord::Base
             book["volumeInfo"]
         end
         display_array.each_with_index do |result, index|
-            puts "#{index+1}."
-            puts "Title: #{result["title"]}"
+            puts "\n#{index+1}. Title: #{result["title"]}"
             if result["authors"]
-                puts "Author: #{result["authors"].join(", ")}"
-                puts "Description: #{result["description"]}"
+                puts "  Author: #{result["authors"].join(", ")}"
+                puts "\n    Description: #{result["description"]}"
             else
-                puts "Description: #{result["description"]}"
+                puts "\n    Description: #{result["description"]}"
             end
         end
+    end
 
+    def display_db_book_info
+        info = <<-INFO
+    \n
+    Title: #{self.title}
+    Author: #{self.author.name}\n
+    Description: #{self.description}\n
+    INFO
+        puts info
     end
 
     def Book.confirm_book
@@ -134,15 +142,15 @@ class Book < ActiveRecord::Base
                 return book 
                 book.display_db_book_info
                 puts "Is this the right book?"
-                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
+                puts "1. Yes\n 2.No, search again\n3. No, exit \n\n"
                 action = STDIN.gets.chomp.to_i
                 return book if action == 1
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
                 Book.display_results(results)
-                puts "Is it one of the above?"
-                puts "1. Yes \n 2. No, search again \n 3. No, exit \n\n"
+                puts "\n\nIs it one of the above?"
+                puts "\n1. Yes \n 2. No, search again \n 3. No, exit \n\n"
                 action = STDIN.gets.chomp.to_i
                 if action == 1 #pick book and create instance then return book
                     book_index = Book.confirm_book - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
@@ -154,14 +162,6 @@ class Book < ActiveRecord::Base
 
     end
 
-    def display_db_book_info
-        info = <<-INFO
-            Title: #{book.title}
-            Author: #{book.author}
-            Description: #{book.description}\n
-        INFO
-        puts info
-    end
 
 
 
