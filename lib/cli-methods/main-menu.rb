@@ -44,9 +44,11 @@ def main_menu_action(active_user, action)
     when 4 #modify shelves
         menu_option_four(active_user)
     when 5 #search books
-        Book.find_book #returns book instance
+        book = Book.find_book #returns book instance
         #need to prompt user for what to do with the book
         #do those things
+        action = found_book_action_menu(book)
+        found_book_action(book, action, active_user)
     when 6 #my stats
         #(stretch goal)
     when 7 #exits the loop in our bookshelfcli.rb file
