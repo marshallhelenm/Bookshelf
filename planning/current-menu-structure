@@ -7,7 +7,11 @@ Main Menu
     a. create Shelf
     b. delete shelf 
     c. modify contents
-        i.
+        1. View Shelf Contents
+        2. Remove Book
+        3. Add Book
+        4. Rename Shelf
+        5. Main Menu
     d. main menu
 5. Search books 
     run find_book and save result to a variable

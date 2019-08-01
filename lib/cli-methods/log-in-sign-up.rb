@@ -65,7 +65,7 @@ def sign_up
                 read = Shelf.create(name: "My Read Books")
                 active_user.shelves << wishlist << read
                 active_user.save
-                "Welcome, #{username}!"
+                puts "\n\nWelcome, #{username}! Your account has been created."
             end
         end
     active_user

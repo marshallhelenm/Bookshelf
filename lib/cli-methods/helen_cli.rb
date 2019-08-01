@@ -1,6 +1,4 @@
-def rename_shelf(shelf) #takes a shelf instance
-    puts "Please enter a new name for your "
-end
+
 
 
 
