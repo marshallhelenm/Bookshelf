@@ -55,7 +55,7 @@ def modify_shelf_menu #returns a menu action
         2. Remove Book \n
         3. Add Book \n
         4. Rename Shelf \n
-        5. Main Menu \n
+        5. Return \n
     TXT
     #a stretch goal would be to add an option here to move a book to a different shelf
     puts menu
@@ -100,9 +100,12 @@ def modify_shelf(action, active_user) #takes in a shelf instance
 end
 
 def view_shelf_contents(shelf)
-    puts "You don't have any books on this shelf yet!\n\n" if shelf.books.empty?
-    shelf.books.each_with_index do |book, index|
-        puts "#{index + 1}. #{book.title} by #{book.author.name}"
+    if shelf.books.empty?
+        puts "You don't have any books on this shelf yet!\n\n" 
+    else
+        shelf.books.each_with_index do |book, index|
+            puts "#{index + 1}. #{book.title} by #{book.author.name}"
+        end
     end 
 end
 
