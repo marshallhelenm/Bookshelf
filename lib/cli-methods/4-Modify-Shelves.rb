@@ -129,3 +129,78 @@ def rename_shelf(shelf) #takes a shelf instance
         puts "Your shelf is now named #{shelf.name}."
     end
 end
+
+
+#helper method if the user tries to create a shelf that is already in the database
+    def shelf_already_exists(active_user)
+        text = <<-TEXT
+                Oops! That shelf already exists!\n
+                What would you like to do?\n
+                1. Select the existing shelf\n
+                2. Try a new shelf name
+        TEXT
+        puts text
+        action = STDIN.gets.chomp.to_i
+    end
+
+    #take in user input after getting shelf exists error
+    def action_for_shelf_exists(action)
+        if action == 1
+            shelf_menu(shelf_choice) # print options for how user can interact with the shelf
+            choose_shelf_menu_option(shelf_choice) # get user action choice and perform actio
+        else
+            ask_user_for_new_shelf
+        end
+    end
+
+
+    def create_shelf_macro(active_user)
+        shelf_name = ask_user_for_new_shelf
+        create_new_shelf(shelf_name, active_user)
+    end
+
+    def ask_user_for_new_shelf
+        puts "What would you like to name your new shelf?"
+        new_shelf_name = STDIN.gets.chomp
+    end
+
+    def create_new_shelf(new_shelf_name, active_user)
+        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
+        if shelf
+            action = shelf_already_exists(active_user)
+            action_for_shelf_exists(action)
+        else
+            puts "Please enter a description for your new bookshelf #{new_shelf_name} or press 'enter' to skip."
+            new_shelf_description = STDIN.gets.chomp
+            my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
+            active_user.shelves << my_new_shelf
+            active_user.save
+        end
+        puts "\n\nYour new shelf #{my_new_shelf.name} has been successfully created!"
+    end
+
+    def add_books_to_new_shelf
+        text = <<-TEXT
+                    Would you like to add books to this shelf or move on?\n
+                    1. Add books\n
+                    2. Exit to Main Menu
+                TEXT
+        puts text
+        user_input = STDIN.gets.chomp.to_i
+        if user_input == 1
+            #run add books method
+        else
+            main_menu_list
+        end
+    end
+
+
+    def delete_shelf(shelf, active_user)
+        puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
+        action = STDIN.gets.chomp
+        if action == 'y'
+            shelf.delete
+        end
+        active_user.shelves.delete(shelf)
+    end
+
