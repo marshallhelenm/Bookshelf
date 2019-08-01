@@ -14,7 +14,7 @@ def menu_four
         1. Create a Shelf\n
         2. Delete a Shelf\n
         3. Modify a Shelf\n
-        4. Main Menu
+        4. Menu
         MENU
     puts menu
         action = STDIN.gets.chomp.to_i
@@ -41,11 +41,11 @@ end
 
 def shelf_options(active_user) #main thing we run under main menu option 4
     print_shelf_list(active_user) # print list of all user's shelves
-    shelf_choice = choose_shelf # get user to select a shelf to interact with
+    shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
     to_menu = false
     until to_menu == true
         action = modify_shelf_menu #returns a user action
-        modify_shelf(shelf_choice, action)
+        to_menu = modify_shelf(shelf_choice, action)
         # choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
 end
@@ -61,7 +61,7 @@ def modify_shelf_menu #returns a menu action
     TXT
     #a stretch goal would be to add an option here to move a book to a different shelf
     puts menu
-    action = gets.chomp.to_i
+    action = STDIN.gets.chomp.to_i
 end
 
 def print_shelf_list(active_user)
@@ -70,7 +70,7 @@ def print_shelf_list(active_user)
     end
 end
 
-def choose_shelf #this method returns a shelf instance
+def choose_shelf(active_user) #this method returns a shelf instance
     puts "Choose a shelf"
     user_input = STDIN.gets.chomp.to_i
     shelf_choice = active_user.shelves[user_input - 1]

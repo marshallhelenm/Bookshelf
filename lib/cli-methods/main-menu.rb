@@ -21,7 +21,7 @@ def main_menu_list
         6. My Stats (Under Construction)\n
         7. Exit
         MENU
-    puts "What would you like to do?\n\n"
+    puts "\n\nWhat would you like to do?\n"
     puts menu_text
     action = STDIN.gets.chomp.to_i
 end
