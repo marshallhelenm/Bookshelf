@@ -32,6 +32,9 @@ class Shelf < ActiveRecord::Base
     def add_book_to_shelf(book)#accepts a book instance - so this is really a helper method
         self.books << book
         self.save
+        puts "You have successfully added #{book.name} to your shelf #{self.name}."
+        puts "Shelf contents: "
+        print_shelf_contents(self)
     end
 
     # def add_book_by_name(book_name)
