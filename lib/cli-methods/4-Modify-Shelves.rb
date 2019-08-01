@@ -25,12 +25,10 @@ def menu_four_perform(action, active_user)
     when 1 
         create_shelf_macro(active_user)
     when 2
-        print_shelf_list(active_user)
         shelf_choice = choose_shelf(active_user)
-        delete_shelf(shelf_choice)
-        #show shelf list
-        #ask which shelf
-        #call delete_shelf
+        delete_shelf(shelf_choice, active_user)
+        puts "Your shelves:\n"
+        print_shelf_list(active_user)
     when 3 
         shelf_options(active_user)
     when 4
@@ -42,11 +40,10 @@ end
 
 def shelf_options(active_user) #main thing we run under main menu option 4
     print_shelf_list(active_user) # print list of all user's shelves
-    shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
     to_menu = false
     until to_menu == true
         action = modify_shelf_menu #returns a user action
-        to_menu = modify_shelf(shelf_choice, action)
+        to_menu = modify_shelf(action, active_user)
         # choose_shelf_menu_option(shelf_choice) # get user action choice and perform action
     end
 end
@@ -73,23 +70,28 @@ end
 
 def choose_shelf(active_user) #this method returns a shelf instance
     puts "Choose a shelf"
+    print_shelf_list(active_user)
     user_input = STDIN.gets.chomp.to_i
     shelf_choice = active_user.shelves[user_input - 1]
 end
 
 
 
-def modify_shelf(shelf, action) #takes in a shelf instance
+def modify_shelf(action, active_user) #takes in a shelf instance
     case action #need to loop around this if statement to some extent
     when 1 
-        view_shelf_contents(shelf) 
+        shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
+        view_shelf_contents(shelf_choice) 
     when 2 
-        remove_book(shelf)
+        shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
+        remove_book(shelf_choice)
         # (stretch to remove from all shelves at once)
     when 3
-        add_book(shelf) #either adds a book to a shelf or does nothing and returns us to the modify contents menu
+        shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
+        add_book(shelf_choice) #either adds a book to a shelf or does nothing and returns us to the modify contents menu
     when 4
-        #rename shelf
+        shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
+        #rename shelf(shelf_choice)
     when 5 #return to main menu
         to_menu = true
     end
