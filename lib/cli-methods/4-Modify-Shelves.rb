@@ -33,6 +33,8 @@ def menu_four_perform(action, active_user)
         shelf_options(active_user)
     when 4
         return to_menu = true
+    else
+        unknown_command
     end
 end
 

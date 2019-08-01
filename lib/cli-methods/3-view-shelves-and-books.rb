@@ -8,9 +8,13 @@ def menu_option_three(active_user)
         action = STDIN.gets.chomp.to_i
         if action == menu
             return #to_menu = true
+        elsif action <= active_user.shelves.length
+            shelf_choice = active_user.shelves[action - 1]
+            shelf_choice.view_shelf_contents #print books
+            STDIN.gets.chomp
+        else
+            unknown_command
         end
-        shelf_choice = active_user.shelves[action - 1]
-        shelf_choice.view_shelf_contents #print books
-        STDIN.gets.chomp
+        
     end
 end

@@ -1,19 +1,26 @@
 #first thing that runs!
 def log_in_sign_up
     welcome
-    puts <<-LIST
-    1. Log in
-    2. Sign up
-    3. Quit
-    LIST
-    action = STDIN.gets.chomp.to_i
-    if action == 1
-        active_user = log_in
-    elsif action == 2
-        active_user = sign_up
-    else
-        goodbye
-        exit!
+    logged_in = false
+    until logged_in == true
+        puts <<-LIST
+        1. Log in
+        2. Sign up
+        3. Quit
+        LIST
+        action = STDIN.gets.chomp.to_i
+        if action == 1
+            active_user = log_in
+            logged_in = true
+        elsif action == 2
+            active_user = sign_up
+            logged_in = true
+        elsif action == 3
+            goodbye
+            exit!
+        else 
+            unknown_command
+        end
     end
     active_user
 end

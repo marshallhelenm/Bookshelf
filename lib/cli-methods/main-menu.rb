@@ -53,8 +53,6 @@ def main_menu_action(active_user, action)
         menu_option_four(active_user)
     when 5 #search books
         book = Book.find_book #returns book instance
-        #need to prompt user for what to do with the book
-        #do those things
         return if !book
         book.display_db_book_info
         action = found_book_action_menu(book)
@@ -62,6 +60,8 @@ def main_menu_action(active_user, action)
     when 6 #my stats
         #(stretch goal)
     when 7 #exits the loop in our bookshelfcli.rb file
-        return to_menu = true     
+        return to_menu = true  
+    else
+        unknown_command   
     end
 end
