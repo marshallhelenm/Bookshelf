@@ -23,8 +23,10 @@ end
 def menu_four_perform(action, active_user)
     case action
     when 1 
-        #create shelf
-    when 2  #delete shelf
+        create_shelf_macro(active_user)
+    when 2
+        print_shelf_list(active_user)
+        shelf_choice = choose_shelf
         #show shelf list
         #ask which shelf
         #call delete_shelf
@@ -97,7 +99,7 @@ def view_shelf_contents(shelf)
     puts "You don't have any books on this shelf yet!\n\n" if shelf.books.empty?
     shelf.books.each_with_index do |book, index|
         puts "#{index + 1}. #{book.title} by #{book.author.name}"
-    end
+    end 
 end
 
 def remove_book(shelf)
