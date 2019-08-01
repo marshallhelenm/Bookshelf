@@ -2,18 +2,19 @@
     #where user is being given a list of what they can do
 
 def main_menu(active_user)
-    to_menu = false
-    until to_menu == true
+    thing = false
+    until thing == "log out" || thing == "quit"
         action = main_menu_list
-        to_menu = main_menu_action(active_user, action)
-        if action == 7
+        thing = main_menu_action(active_user, action)
+        if action == 8
             break
-        end
-        if to_menu == false
+        elsif action == 7
+            thing = "log out"
+        elsif thing == false
             STDIN.gets.chomp
         end
     end
-    quitter = true
+    thing
 end
  
 def main_menu_list
@@ -27,7 +28,8 @@ def main_menu_list
     4. Modify Shelves
     5. Search Books
     6. My Stats (Under Construction)
-    7. Exit
+    7. Log Out
+    8. Exit
     MENU
     puts menu_text
     action = STDIN.gets.chomp.to_i
@@ -59,8 +61,10 @@ def main_menu_action(active_user, action)
         found_book_action(book, action, active_user)
     when 6 #my stats
         menu_option_six(active_user)
-    when 7 #exits the loop in our bookshelfcli.rb file
-        return to_menu = true  
+    when 7 #log out
+        return thing = "log out"
+    when 8  
+        return thing = "quit"
     else
         unknown_command   
     end
