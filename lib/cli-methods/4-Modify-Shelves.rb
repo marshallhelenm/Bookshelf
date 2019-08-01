@@ -23,8 +23,10 @@ end
 def menu_four_perform(action, active_user)
     case action
     when 1 
-        #create shelf
-    when 2 
+        create_shelf_macro(active_user)
+    when 2
+        print_shelf_list(active_user)
+        shelf_choice = choose_shelf
         #show shelf list
         #ask which shelf
         #call delete_shelf
