@@ -37,8 +37,11 @@ def stats_menu_action(action, active_user)
         my_authors(active_user)
     when 8 #
         shelf_choice = choose_shelf(active_user)
+        authors_on_shelf(shelf_choice)
     when 9
         list_all_my_books(active_user)
+    when 10
+        return
     else
         unknown_command
     end
@@ -120,14 +123,13 @@ def authors_on_shelf(shelf_choice)
     if shelf_choice.books.empty?
         puts "\nYou do not have any books on this bookshelf yet!\n"
     else
-        author_names = shelf_choice.collect do |shelf|
-            shelf.book.author.name
+        author_names = shelf_choice.books.collect do |book|
+            book.author.name
         end
         author_names.each_with_index do |author, index|
             puts "  #{index + 1}. #{author}"
         end
     end
-    puts
 end
 
 def list_all_my_books(active_user)
