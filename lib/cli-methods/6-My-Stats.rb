@@ -67,15 +67,17 @@ def most_recently_read(active_user)
     if read_shelf.books.empty?
         puts "\nYou haven't read any books yet!\n"
     else
-        puts "\nYour most recently read book is: #{read_shelf.books.last.title}."
+        puts "\nYour most recently read book is: #{read_shelf.books.last.title}.\n"
     end
-    puts
 end
 
 def most_popular_book
     # Book.all.max_by do |book|
         
     # end
+end
+
+def most_popular_author
 end
 
 def my_read_count(shelf_choice)
@@ -88,7 +90,7 @@ end
 
 def count_my_books(active_user)
     if active_user.books.empty?
-        puts "\nYou have not yet saved any books in the Bookshelf™ database."
+        puts "\nYou have not yet saved any books in the Bookshelf™ database.\n"
     else
         puts "\nYou have a total of #{active_user.books.uniq.length} books saved in the Bookshelf™ database.\n"
     end
@@ -112,11 +114,11 @@ def my_authors(active_user)  # should this also list the shelf name each author 
         author_names = active_user.books.collect do |book|
             book.author.name
         end
+        puts "\nAuthors:\n"
         author_names.each_with_index do |author, index|
             puts "  #{index +1 }. #{author}"
         end
     end
-    puts
 end
 
 def authors_on_shelf(shelf_choice)
@@ -126,6 +128,7 @@ def authors_on_shelf(shelf_choice)
         author_names = shelf_choice.books.collect do |book|
             book.author.name
         end
+        puts "\nAuthors:\n"
         author_names.each_with_index do |author, index|
             puts "  #{index + 1}. #{author}"
         end
@@ -136,6 +139,7 @@ def list_all_my_books(active_user)
     if active_user.books.empty?
         puts "\nYou do not have any books on this bookshelf yet!\n"
     else
+        puts "\nMy Books:\n"
         active_user.books.each_with_index do|book, index|
             puts "  #{index +1}. #{book.title}"
         end
