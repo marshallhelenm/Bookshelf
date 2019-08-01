@@ -149,6 +149,14 @@ class Book < ActiveRecord::Base
 
     end
 
+    # def display_db_book_info
+    #     info = <<-INFO
+    #         Title: #{book.title}
+    #         Author: #{book.author}
+    #         Description: #{book.description}
+    #     INFO
+    # end
+
 
 
     

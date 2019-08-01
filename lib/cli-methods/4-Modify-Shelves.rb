@@ -115,6 +115,7 @@ end
 def add_book(shelf)#takes a shelf instance, and calls on the shelf instance method, add_book
     book = Book.find_book #will return a book instance if the user was successful, or nil if they gave up
     shelf.add_book_to_shelf(book) if book
+    STDIN.gets.chomp
 end
 
 def rename_shelf(shelf) #takes a shelf instance

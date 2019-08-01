@@ -15,7 +15,7 @@ def main_menu(active_user)
     end
     quitter = true
 end
-
+ 
 def main_menu_list
     menu_text = <<-MENU
     1. View my Wishlist

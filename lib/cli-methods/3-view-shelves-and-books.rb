@@ -7,7 +7,7 @@ def menu_option_three(active_user)
         puts "#{menu}. Return to Menu"
         action = STDIN.gets.chomp.to_i
         if action == menu
-            return to_menu = true
+            return #to_menu = true
         end
         shelf_choice = active_user.shelves[action - 1]
         shelf_choice.view_shelf_contents #print books
