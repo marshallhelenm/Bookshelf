@@ -34,7 +34,19 @@ class Shelf < ActiveRecord::Base
         self.save
         puts "You have successfully added #{book.title} to your shelf #{self.name}."
         puts "Shelf contents: "
-        view_shelf_contents(self)
+        self.view_shelf_contents
+    end
+
+    def view_shelf_contents
+        if self.books.empty?
+            puts "\n\nYou don't have any books on this shelf yet!\n\n" 
+        else
+            puts "\n\n#{self.name}:\n\n"
+            self.books.each_with_index do |book, index|
+                puts "#{index + 1}. #{book.title} by #{book.author.name}"
+            end
+            puts "\n"
+        end 
     end
 
     # def add_book_by_name(book_name)

@@ -7,7 +7,7 @@ class BookshelfCLI
         until quitter == true
             quitter = main_menu(active_user) #perform the appropriate action
         end
-        puts "Thanks for using Bookshelf!"
+        puts goodbye
     end
 end
 

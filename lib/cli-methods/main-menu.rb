@@ -6,6 +6,12 @@ def main_menu(active_user)
     until to_menu == true
         action = main_menu_list
         to_menu = main_menu_action(active_user, action)
+        if action == 7
+            break
+        end
+        if to_menu == false
+            STDIN.gets.chomp
+        end
     end
     quitter = true
 end
@@ -33,14 +39,15 @@ def main_menu_action(active_user, action)
         wishlist = active_user.shelves.find do |shelf|
             shelf.name == "My Wishlist"
         end
-        view_shelf_contents(wishlist)
+        wishlist.view_shelf_contents
+        puts "\n"
     when 2 #view read books list
         read = active_user.shelves.find do |shelf|
             shelf.name == "My Read Books"
         end
-        view_shelf_contents(read)
+        read.view_shelf_contents
     when 3 #view shelves
-        menu_option_three(active_user)
+        to_menu = menu_option_three(active_user)
     when 4 #modify shelves
         menu_option_four(active_user)
     when 5 #search books
@@ -52,6 +59,6 @@ def main_menu_action(active_user, action)
     when 6 #my stats
         #(stretch goal)
     when 7 #exits the loop in our bookshelfcli.rb file
-        to_menu = true     
+        return to_menu = true     
     end
 end

@@ -1,6 +1,6 @@
 #first thing that runs!
 def log_in_sign_up
-    puts "Welcome to Bookshelf!"
+    welcome
     puts "1. Log in"
     puts "2. Sign up"
     puts "3. Quit"
@@ -10,7 +10,7 @@ def log_in_sign_up
     elsif action == 2
         active_user = sign_up
     else
-        puts "\n\nThanks for using Bookshelf!"
+        goodbye
         exit!
     end
     active_user
@@ -40,8 +40,7 @@ def log_in
                 active_user = sign_up
                 logged_in = true
             elsif action == 3
-                puts "\n\nThanks for using Bookshelf!"
-                exit!
+                goodbye
             end
         end
     end
@@ -69,4 +68,33 @@ def sign_up
             end
         end
     active_user
+end
+
+def welcome
+    puts <<-ASC
+       .--.                   .---.
+   .---|__|           .-.     |~~~|
+.--|===|--|_          |_|     |~~~|--.
+|  |===|  |'\\     .---!~|  .--|   |--|
+|%%|   |  |.'\\    |===| |--|%%|   |  |
+|%%|   |  |\\.'\\   |   | |__|  |   |  |
+|  |   |  | \\  \\  |===| |==|  |   |  |
+|  |   |__|  \\.'\\ |   |_|__|  |~~~|__|
+|  |===|--|   \\.'\\|===|~|--|%%|~~~|--|
+^--^---'--^    `-'`---^-^--^--^---'--'
+\n      "Welcome to Bookshelf!\n
+    ASC
+end
+
+def goodbye
+puts <<-BYE
+                ______ ______
+              _/      Y      \\\_
+             // ~~ ~~ | ~~ ~  \\\\
+            // ~ ~ ~~ | ~~~ ~~ \\\\      
+           //________.|.________\\\\     
+          `----------`-'----------'
+          Thanks for using Bookshelf!
+
+BYE
 end

@@ -81,7 +81,7 @@ def modify_shelf(action, active_user) #takes in a shelf instance
     case action #need to loop around this if statement to some extent
     when 1  #view shelf contents
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
-        view_shelf_contents(shelf_choice) 
+        shelf_choice.view_shelf_contents 
     when 2 #remove a book from a shelf
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
         remove_book(shelf_choice)
@@ -99,19 +99,9 @@ def modify_shelf(action, active_user) #takes in a shelf instance
     to_menu
 end
 
-def view_shelf_contents(shelf)
-    if shelf.books.empty?
-        puts "You don't have any books on this shelf yet!\n\n" 
-    else
-        shelf.books.each_with_index do |book, index|
-            puts "#{index + 1}. #{book.title} by #{book.author.name}"
-        end
-    end 
-end
-
 def remove_book(shelf)
     puts "Which book should we remove? Please enter a number:"
-    view_shelf_contents(shelf)
+    shelf.view_shelf_contents
     book_index = STDIN.gets.chomp.to_i - 1
     book = shelf.books[book_index] #grab that book instance off their shelf
     shelf.remove_book_from_shelf(book) #calling the shelf instance method called remove_book_from_shelf
