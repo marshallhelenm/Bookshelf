@@ -1,5 +1,5 @@
 #menu options for stats
-def stats_menu_options(active_user)
+def stats_menu_options
     menu = <<-MENU
     1. View most recently read book
     2. View most popular book in Bookshelf database
@@ -19,35 +19,44 @@ end
 #actions for menu options
 def stats_menu_action(action, active_user)
     case action
-    when 1
+    when 1 #last book on the read books shelf
         most_recently_read(active_user)
-    when 4
+    when 4 # count all of this user's books
         count_my_books(active_user)
-    when 5
+    when 5 # Count books on a shelf
         shelf_choice = choose_shelf(active_user)
         my_read_count(shelf_choice)
-    when 6
+    when 6 #get average number of books / shelf for a user
         my_average_shelf_count(active_user)
-    when 7
+    when 7 # all the authors in the user's shelves
         my_authors(active_user)
-    when 8
+    when 8 #
         shelf_choice = choose_shelf(active_user)
     when 9
         list_all_my_books(active_user)
-    when 10
     else
+        unknown_command
     end
 end
 
 
-
+def menu_option_six(active_user)
+    action = 0
+    until action == 10
+        action = stats_menu_options
+        stats_menu_action(action, active_user)
+    end
+end
 
 
 
 #without adding a status column for books 
 #getting currently reading doesn't make sense
 def most_recently_read(active_user)
-    puts "\nYour most recently read book is: #{active_user.books.last.title}."
+    read_shelf = active_user.shelves.find do |shelf|
+        shelf.name == "My Read List"
+    end
+    puts "\nYour most recently read book is: #{read_shelf.books.last.title}."
 end
 
 def most_popular_book
@@ -57,11 +66,11 @@ def most_popular_book
 end
 
 def my_read_count(shelf_choice)
-    puts "\nYou have #{shelf_choice.length} books on your #{shelf_choice.name} shelf."
+    puts "\nYou have #{shelf_choice.books.length} books on your #{shelf_choice.name} shelf."
 end
 
 def count_my_books(active_user)
-    puts "\nYou have a total of #{active_user.books.length} books in the Bookshelf™ database."
+    puts "\nYou have a total of #{active_user.books.uniq.length} books saved in the Bookshelf™ database."
 end
 
 def my_average_shelf_count(active_user)
@@ -76,7 +85,7 @@ def my_authors(active_user)
         book.author.name
     end
     author_names.each_with_index do |author, index|
-        puts "#{index +1 }. #{author}"
+        puts "  #{index +1 }. #{author}"
     end
 end
 
@@ -85,13 +94,13 @@ def authors_on_shelf(shelf_choice)
         shelf.book.author.name
     end
     author_names.each_with_index do |author, index|
-        puts "#{index + 1}. #{author}"
+        puts "  #{index + 1}. #{author}"
     end
 end
 
 def list_all_my_books(active_user)
     active_user.books.each_with_index do|book, index|
-        puts "#{index +1}. #{book.title}"
+        puts "  #{index +1}. #{book.title}"
     end
 end
 

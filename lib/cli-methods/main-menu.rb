@@ -58,7 +58,7 @@ def main_menu_action(active_user, action)
         action = found_book_action_menu(book)
         found_book_action(book, action, active_user)
     when 6 #my stats
-        #(stretch goal)
+        menu_option_six(active_user)
     when 7 #exits the loop in our bookshelfcli.rb file
         return to_menu = true  
     else
