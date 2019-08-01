@@ -146,24 +146,24 @@ def edit_shelf_description(shelf) #takes a shelf instance
 end
 
 #helper method if the user tries to create a shelf that is already in the database
-    def shelf_already_exists(active_user, shelf)
-        text = <<-TEXT
+def shelf_already_exists(active_user, shelf)
+    text = <<-TEXT
 \nOops! That shelf already exists!\n
 What would you like to do?\n
     1. Modify shelf
     2. Try a new shelf name\n
         TEXT
-        puts text
-        action = 0
-        until action == 1 || action == 2
-            action = STDIN.gets.chomp.to_i
-            if action == 1
-                modification = modify_shelf_menu # print options for how user can interact with the shelf
-                modify_shelf(modification, active_user)
-                return done = true
-            end
+    puts text
+    action = 0
+    until action == 1 || action == 2
+        action = STDIN.gets.chomp.to_i
+        if action == 1
+            modification = modify_shelf_menu # print options for how user can interact with the shelf
+            modify_shelf(modification, active_user)
+            return done = true
         end
     end
+end
 
     def ask_user_for_new_shelf
         puts "What would you like to name your new shelf?"
