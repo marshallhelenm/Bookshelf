@@ -3,7 +3,7 @@
 #find book on the book model returns a book instance, pass that into book_action_menu
 def found_book_action_menu(book)
     menu = <<-MENU
-        1. Would you like to add this book to a shelf?
+        1. Add book to a shelf
         2. View book description
         3. Previous Menu
     MENU
