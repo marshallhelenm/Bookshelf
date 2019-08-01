@@ -62,16 +62,11 @@
     end
 
 
-    def delete_shelf(shelf)
-        shelf = Shelf.all.find {|shelf| shelf.name == new_shelf_name }
-        if shelf
-            puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
-            action = STDIN.gets.chomp
-            if action == 'y'
-                shelf.delete
-            end
-        else
-            puts "We cannot find a shelf under that name."
+    def delete_shelf(shelf, active_user)
+        puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
+        action = STDIN.gets.chomp
+        if action == 'y'
+            shelf.delete
         end
     end
 

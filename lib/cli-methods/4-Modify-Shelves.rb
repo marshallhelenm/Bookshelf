@@ -26,8 +26,8 @@ def menu_four_perform(action, active_user)
         create_shelf_macro(active_user)
     when 2
         print_shelf_list(active_user)
-        shelf_choice = choose_shelf
-        delete_shelf(shelf_choice)
+        shelf_choice = choose_shelf(active_user)
+        delete_shelf(shelf_choice, active_user)
         #show shelf list
         #ask which shelf
         #call delete_shelf
