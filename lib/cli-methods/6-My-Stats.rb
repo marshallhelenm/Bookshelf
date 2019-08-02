@@ -26,6 +26,10 @@ def stats_menu_action(action, active_user)
     case action
     when 1 #last book on the read books shelf
         most_recently_read(active_user)
+    when 2
+        most_popular_book
+    when 3
+        most_popular_author
     when 4 # count all of this user's books
         count_my_books(active_user)
     when 5 # Count books on a shelf
@@ -72,19 +76,38 @@ def most_recently_read(active_user)
 end
 
 def most_popular_book
-    # Book.all.max_by do |book|
-        
-    # end
+    books_on_shelves = Shelf.all.collect do |shelf|
+        shelf.books
+    end.flatten
+    book_count_hash = Hash.new(0)
+    books_on_shelves.each do |book|
+        book_count_hash[book] += 1
+    end
+    most_pop = book_count_hash.max_by do |book, count|
+        count
+    end
+    puts "\nThe most popular book in the Bookshelf™ is #{most_pop[0].title} by #{most_pop[0].author.name}.\n"
 end
 
 def most_popular_author
+    books_on_shelves = Shelf.all.collect do |shelf|
+        shelf.books
+    end.flatten
+    author_count_hash = Hash.new(0)
+    books_on_shelves.each do |book|
+        author_count_hash[book.author] += 1
+    end
+    most_pop = author_count_hash.max_by do |author, count|
+        count
+    end
+    puts "\nThe most popular author on the Bookshelf™ is #{most_pop[0].name}.\n"
 end
 
 def my_read_count(shelf_choice)
     if shelf_choice.books.empty?
         puts "\nYou don't have any books on this shelf yet!\n"
     else
-        puts "\nYou have #{shelf_choice.books.length} books on your #{shelf_choice.name} shelf.\n"
+        puts "\nYou have #{shelf_choice.books.length} book(s) on your #{shelf_choice.name} shelf.\n"
     end
 end
 
@@ -103,7 +126,7 @@ def my_average_shelf_count(active_user)
         average = active_user.shelves.collect do |shelf|
             shelf.books.length
         end.sum / (active_user.shelves.length * 1.0)
-        puts "\nYou have an average of #{average} books per shelf in the Bookshelf™ database.\n"
+        puts "\nYou have an average of #{average} book(s) per shelf in the Bookshelf™ database.\n"
     end
 end
 
