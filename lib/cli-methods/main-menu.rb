@@ -34,6 +34,13 @@ def main_menu_list
     MENU
     puts menu_text
     action = STDIN.gets.chomp.to_i
+    if !(1..9).include?(action)    
+        until (1..9).include?(action)
+            unknown_command   
+            action = STDIN.gets.chomp.to_i
+        end
+    end
+    action
 end
 
 #NEEDS WORK
@@ -46,7 +53,6 @@ def main_menu_action(active_user, action)
         end
         wishlist.view_shelf_contents
         puts "\n"
-        STDIN.gets.chomp
     when 2 #view read books list
         puts `clear`
         read = active_user.shelves.find do |shelf|
@@ -56,8 +62,13 @@ def main_menu_action(active_user, action)
     when 3 #view shelves
         puts `clear`
         to_menu = menu_option_three(active_user)
+        STDIN.gets.chomp
+        puts `clear`
     when 4 #modify shelves
+        puts `clear`
         menu_option_four(active_user)
+        STDIN.gets.chomp
+        puts `clear`
     when 5 #search books
         puts `clear`
         book = Book.find_book #returns book instance
@@ -65,14 +76,18 @@ def main_menu_action(active_user, action)
         book.display_db_book_info
         action = found_book_action_menu(book)
         found_book_action(book, action, active_user)
+        STDIN.gets.chomp
+        puts `clear`
     when 6 #my stats
         puts `clear`
         menu_option_six(active_user)
+        STDIN.gets.chomp
+        puts `clear`
     when 7 #log out
+        puts `clear`
         return thing = "log out"
     when 8  
+        puts `clear`
         return thing = "quit"
-    else
-        unknown_command   
     end
 end

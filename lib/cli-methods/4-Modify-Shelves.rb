@@ -93,20 +93,33 @@ def modify_shelf(action, active_user) #takes in a shelf instance
         shelf_choice.view_shelf_contents 
         to_menu = false
     when 2 #remove a book from a shelf
+        puts `clear`
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
         remove_book(shelf_choice, active_user)
+        STDIN.gets.chomp
+        puts `clear`
         # (stretch to remove from all shelves at once)
     when 3 #add a book to a shelf 
+        puts `clear`
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
         add_book(shelf_choice) #either adds a book to a shelf or does nothing and returns us to the modify contents menu
+        STDIN.gets.chomp
+        puts `clear`
     when 4 #rename shelf
+        puts `clear`
         shelf_choice = choose_shelf(active_user)
         rename_shelf(shelf_choice) # get user to select a shelf to interact with
+        STDIN.gets.chomp
+        puts `clear`
         #rename shelf(shelf_choice)
     when 5 #edit shelf description
+        puts `clear`
         shelf_choice = choose_shelf(active_user)
         edit_shelf_description(shelf_choice)
+        STDIN.gets.chomp
+        puts `clear`
     when 6 #return to main menu
+        puts `clear`
         to_menu = true
     else
         unknown_command
@@ -203,6 +216,8 @@ end
                 active_user.save
                 puts "\n\nYour new shelf #{my_new_shelf.name} has been successfully created!"
                 done = true
+                STDIN.gets.chomp
+                puts `clear`
             end
         end
     end

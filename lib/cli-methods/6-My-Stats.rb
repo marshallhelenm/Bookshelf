@@ -127,7 +127,7 @@ end
 
 def my_read_count(shelf_choice)
     if shelf_choice.books.empty?
-        puts "\nYou don't have any books on this shelf yet!\n"
+        puts "\nYou don't have any books on this shelf!\n"
     else
         puts "\nYou have #{shelf_choice.books.length} book(s) on your #{shelf_choice.name} shelf.\n"
     end

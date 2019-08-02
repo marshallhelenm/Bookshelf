@@ -108,6 +108,7 @@ def sign_up
 
         TXT
                 STDIN.gets.chomp
+                puts `clear`
             end
         end
     active_user

@@ -42,6 +42,8 @@ class Shelf < ActiveRecord::Base
     def view_shelf_contents
         if self.books.empty?
             puts "\n\nYou don't have any books on this shelf!\n\n" 
+            STDIN.gets.chomp
+            puts `clear`
         else
             puts "\n#{self.name}:\n\n"
             self.books.each_with_index do |book, index|
