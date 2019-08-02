@@ -13,11 +13,11 @@ author3 = Author.create(name: "Test")
 user1 = User.create(name: "Trevor")
 user2 = User.create(name: "Mia")
 
-book1 = Book.create(title: "The Stone Sky", genre: "Fantasy")
+book1 = Book.create(title: "The Stone Sky", description: "Fantasy")
 author2.books << book1
-book2 = Book.create(title: "East of Eden", genre: "Fiction")
+book2 = Book.create(title: "East of Eden", description: "Fiction")
 author1.books << book2
-book3 = Book.create(title: "Testtttt", genre: "Nonfiction")
+book3 = Book.create(title: "Testtttt", description: "Nonfiction")
 author3.books << book3
 
 shelf1 = Shelf.create(name: "Wishlist", description: "A list of all the books I want to read", user_id: user1.id)
