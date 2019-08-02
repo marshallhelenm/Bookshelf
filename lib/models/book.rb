@@ -66,10 +66,22 @@ class Book < ActiveRecord::Base
     end
 
     def Book.get_search_terms
-        puts "Please enter a book title:"
-        title = STDIN.gets.chomp
-        puts "Please enter the author (or hit enter to skip):"
-        author = STDIN.gets.chomp
+        title = "test"
+        author = "test"
+        searchable = false
+        until searchable == true
+            puts "Please enter a book title:"
+                title = STDIN.gets.chomp
+                puts "Please enter the author (or hit enter to skip):"
+                author = STDIN.gets.chomp
+                binding.pry
+            if title == "" && author == ""
+                puts "\nPlease enter at least one search value!"
+                puts ""
+            else
+                searchable = true
+            end
+        end
         return [author, title]
     end
     
@@ -172,6 +184,10 @@ class Book < ActiveRecord::Base
                     book_index = Book.confirm_book(results) - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
                     book = Book.create_from_api(results[book_index]) #create book instance based on the api data for the indicated book 
                     return book
+                elsif action == 2 || action == 3
+                    next
+                else
+                    unknown_command
                 end
             end
         end
