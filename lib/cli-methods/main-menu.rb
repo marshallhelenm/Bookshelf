@@ -5,9 +5,10 @@ def main_menu(active_user)
     thing = false
     until thing == "log out" || thing == "quit"
         action = main_menu_list
-        thing = main_menu_action(active_user, action)
+        main_menu_action(active_user, action)
         if action == 8
-            break
+            goodbye
+            exit!
         elsif action == 7
             thing = "log out"
         elsif thing == false
@@ -37,6 +38,7 @@ end
 
 #NEEDS WORK
 def main_menu_action(active_user, action)
+    puts `clear`
     case action
     when 1 #view wishlist
         wishlist = active_user.shelves.find do |shelf|
@@ -44,11 +46,13 @@ def main_menu_action(active_user, action)
         end
         wishlist.view_shelf_contents
         puts "\n"
+        STDIN.gets.chomp
     when 2 #view read books list
         read = active_user.shelves.find do |shelf|
             shelf.name == "My Read Books"
         end
         read.view_shelf_contents
+        STDIN.gets.chomp
     when 3 #view shelves
         to_menu = menu_option_three(active_user)
     when 4 #modify shelves

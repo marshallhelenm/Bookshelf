@@ -9,6 +9,7 @@ def log_in_sign_up
         3. Quit
         LIST
         action = STDIN.gets.chomp.to_i
+        puts `clear`
         if action == 1
             active_user = log_in
             logged_in = true
@@ -35,6 +36,7 @@ def log_in
         end #will provide either a user instance, or nil
         if active_user #if it's truthy, that is
             logged_in = true
+            puts `clear`
             puts "\nWelcome #{username}!"
             return active_user
         else
@@ -50,6 +52,7 @@ def log_in
                 logged_in = true
             elsif action == 3
                 goodbye
+                exit!
             end
         end
     end

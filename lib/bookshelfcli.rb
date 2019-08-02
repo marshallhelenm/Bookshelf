@@ -17,6 +17,7 @@ class BookshelfCLI
         thing = false
         until thing == "quit"
             active_user = log_in_sign_up #prompts the user to sign in or sign up, and returns a user instance
+            thing = false
             until thing == "log out" || thing == "quit"
                 thing = main_menu(active_user) #perform the appropriate action
             end
