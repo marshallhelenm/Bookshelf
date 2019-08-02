@@ -58,7 +58,6 @@ def main_menu_action(active_user, action)
         puts `clear`
         to_menu = menu_option_three(active_user)
     when 4 #modify shelves
-        puts `clear`
         menu_option_four(active_user)
     when 5 #search books
         puts `clear`

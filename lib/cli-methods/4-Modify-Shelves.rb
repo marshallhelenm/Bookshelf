@@ -3,6 +3,7 @@
 def menu_option_four(active_user)
     to_menu = false
     until to_menu == true
+        puts `clear`
         action = menu_four #(shows menu and gets action)
         to_menu = menu_four_perform(action, active_user)
     end 
@@ -167,6 +168,7 @@ What would you like to do?\n
 end
 
     def ask_user_for_new_shelf
+        puts `clear`
         puts "What would you like to name your new shelf?"
         new_shelf_name = STDIN.gets.chomp
     end
@@ -179,7 +181,7 @@ end
             if shelf
                 done = shelf_already_exists(active_user, shelf)
             else
-                puts "Please enter a description for your new bookshelf #{new_shelf_name} or press 'enter' to skip."
+                puts "\nPlease enter a description for your new bookshelf '#{new_shelf_name}' or press 'enter' to skip."
                 new_shelf_description = STDIN.gets.chomp
                 my_new_shelf = Shelf.create(name: new_shelf_name, description: new_shelf_description, user_id: active_user.id)
                 active_user.shelves << my_new_shelf
