@@ -3,8 +3,8 @@
 def menu_option_four(active_user)
     to_menu = false
     until to_menu == true
-        puts `clear`
         action = menu_four #(shows menu and gets action)
+        break if action == 4
         to_menu = menu_four_perform(action, active_user)
     end 
 end
@@ -30,7 +30,7 @@ def menu_four_perform(action, active_user)
         delete_shelf(shelf_choice, active_user)
         puts "Your shelves:\n"
         print_shelf_list(active_user)
-    when 3 
+    when 3 #modify a shelf
         shelf_options(active_user)
     when 4
         return to_menu = true
@@ -42,6 +42,7 @@ end
 
 
 def shelf_options(active_user) #main thing we run under main menu option 4
+    puts "\nYour shelves:"
     print_shelf_list(active_user) # print list of all user's shelves
     to_menu = false
     until to_menu == true
@@ -68,7 +69,9 @@ end
 def print_shelf_list(active_user)
     puts ""
     active_user.shelves.each_with_index do |shelf, index|
-        puts "  #{index + 1}. #{shelf.name}"
+        puts <<-TXT
+    #{index + 1}. #{shelf.name}
+    TXT
     end
 end
 
@@ -86,10 +89,12 @@ def modify_shelf(action, active_user) #takes in a shelf instance
     case action #need to loop around this if statement to some extent
     when 1  #view shelf contents
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
+        puts `clear`
         shelf_choice.view_shelf_contents 
+        to_menu = false
     when 2 #remove a book from a shelf
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
-        remove_book(shelf_choice)
+        remove_book(shelf_choice, active_user)
         # (stretch to remove from all shelves at once)
     when 3 #add a book to a shelf 
         shelf_choice = choose_shelf(active_user) # get user to select a shelf to interact with
@@ -106,15 +111,25 @@ def modify_shelf(action, active_user) #takes in a shelf instance
     else
         unknown_command
     end
-    to_menu
+    
 end
 
-def remove_book(shelf)
-    puts "Which book should we remove? Please enter a number:"
-    shelf.view_shelf_contents
-    book_index = STDIN.gets.chomp.to_i - 1
-    book = shelf.books[book_index] #grab that book instance off their shelf
-    shelf.remove_book_from_shelf(book) #calling the shelf instance method called remove_book_from_shelf
+def remove_book(shelf, active_user)
+    if shelf.books.empty?
+        puts "\nThis shelf is empty!"
+    else
+        puts `clear`
+        puts "Which book should we remove? Please enter a number:"
+        shelf.view_shelf_contents
+        book_index = STDIN.gets.chomp.to_i - 1
+        book = shelf.books[book_index] #grab that book instance off their shelf
+        shelf.remove_book_from_shelf(book) #calling the shelf instance method called remove_book_from_shelf
+        active_user = update_user_variable(active_user)
+        puts "\nYou have successfully removed #{book.title} from #{shelf.name}."
+        puts "\nShelf contents: "
+        shelf.view_shelf_contents
+    end
+    active_user
 end
 
 def add_book(shelf)#takes a shelf instance, and calls on the shelf instance method, add_book
@@ -212,8 +227,9 @@ end
         puts "Are you sure you want to delete your shelf: #{shelf.name}? (y/n)"
         action = STDIN.gets.chomp
         if action == 'y'
-            shelf.delete
+            active_user.shelves.delete(shelf)
+            Shelf.all.delete(shelf)
         end
-        active_user.shelves.delete(shelf)
+        
     end
 

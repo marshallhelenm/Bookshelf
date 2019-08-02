@@ -6,7 +6,7 @@ require 'pry'
 # search_term = STDIN.gets.chomp -- cli stuff, we don't want to call this every time we are getting data or looking up info from the api
 
 def pull_from_api(search_term)
-    string_response = RestClient.get("https://www.googleapis.com/books/v1/volumes?q=#{search_term}&printType=books&projection=lite&orderBy=relevance&maxResults=5&startIndex=0&fields=items(selfLink,volumeInfo(title,authors,description))")
+    string_response = RestClient.get("https://www.googleapis.com/books/v1/volumes?q=#{search_term}&printType=books&projection=lite&orderBy=relevance&maxResults=3&startIndex=0&fields=items(selfLink,volumeInfo(title,authors,description))")
     response_hash = JSON.parse(string_response)
     response_hash["items"]
 end

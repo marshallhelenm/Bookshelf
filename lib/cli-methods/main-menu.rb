@@ -19,7 +19,6 @@ def main_menu(active_user)
 end
  
 def main_menu_list
-    puts `clear`
     menu_text = <<-MENU
     \n
     MAIN MENU

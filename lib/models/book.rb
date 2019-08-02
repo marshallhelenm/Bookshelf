@@ -127,10 +127,18 @@ class Book < ActiveRecord::Base
         puts info
     end
 
-    def Book.confirm_book
-            puts "Which number?"      
-            book_num = STDIN.gets.chomp.to_i #other stuff heeeeeere
+    def Book.confirm_book(results)
+            puts "Which number?"  
+            book_num = 0 
+            until book_num <= results.length && book_num > 0
+                book_num = STDIN.gets.chomp.to_i #other stuff heeeeeere
+                unknown_command unless book_num <= results.length && book_num >= 0
+            end
+            book_num
     end
+
+
+    ####################FIND BOOK######################
 
     def Book.find_book
         action = 0
@@ -139,21 +147,29 @@ class Book < ActiveRecord::Base
             search_term = format_search_term(terms) #format search term for use in api search
             book = Book.find_from_db(terms) #check for book in the database
             if book #if successfully found the book in the database do the below
-                return book 
                 book.display_db_book_info
                 puts "Is this the right book?"
-                puts "1. Yes\n 2.No, search again\n3. No, exit \n\n"
+                puts <<-TXT
+    1. Yes
+    2. No, search again
+    3. No, exit \n\n
+    TXT
                 action = STDIN.gets.chomp.to_i
                 return book if action == 1
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
                 Book.display_results(results)
-                puts "\n\nIs it one of the above?"
-                puts "\n1. Yes \n 2. No, search again \n 3. No, exit \n\n"
+                puts ""
+                puts "Is it one of the above?"
+                puts <<-TXT
+    1. Yes
+    2. No, search again
+    3. No, exit
+                TXT
                 action = STDIN.gets.chomp.to_i
                 if action == 1 #pick book and create instance then return book
-                    book_index = Book.confirm_book - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
+                    book_index = Book.confirm_book(results) - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
                     book = Book.create_from_api(results[book_index]) #create book instance based on the api data for the indicated book 
                     return book
                 end

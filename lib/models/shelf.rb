@@ -24,24 +24,25 @@ class Shelf < ActiveRecord::Base
 
     def remove_book_from_shelf(book)
         connection = Shelfjoin.all.find do |join|
-            shelf_id == shelf.id && book_id == book.id
+            join.shelf_id == self.id && join.book_id == book.id
         end
         connection.delete
+        self.books.delete(book)
     end
 
     def add_book_to_shelf(book)#accepts a book instance - so this is really a helper method
         self.books << book
         self.save
+        puts `clear`
         puts "\nYou have successfully added #{book.title} to your shelf #{self.name}.\n"
-        puts "Shelf contents: "
+        puts "\nShelf contents: "
         self.view_shelf_contents
     end
 
     def view_shelf_contents
         if self.books.empty?
-            puts "\n\nYou don't have any books on this shelf yet!\n\n" 
+            puts "\n\nYou don't have any books on this shelf!\n\n" 
         else
-            puts `clear`
             puts "\n#{self.name}:\n\n"
             self.books.each_with_index do |book, index|
                 puts "#{index + 1}. #{book.title} by #{book.author.name}"
