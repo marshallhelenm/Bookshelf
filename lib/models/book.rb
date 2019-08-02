@@ -74,7 +74,6 @@ class Book < ActiveRecord::Base
                 title = STDIN.gets.chomp
                 puts "Please enter the author (or hit enter to skip):"
                 author = STDIN.gets.chomp
-                binding.pry
             if title == "" && author == ""
                 puts "\nPlease enter at least one search value!"
                 puts ""
@@ -155,6 +154,7 @@ class Book < ActiveRecord::Base
     def Book.find_book
         action = 0
         until action == 3 do
+            puts `clear`
             terms = Book.get_search_terms #grab search terms from user input
             search_term = format_search_term(terms) #format search term for use in api search
             book = Book.find_from_db(terms) #check for book in the database
@@ -171,15 +171,21 @@ class Book < ActiveRecord::Base
             else #stuff to do if book not found in database
                 results = Book.grab_data_from_api(search_term) #use the search term to pull data from the API
                 # display the results in a user friendly way and ask the user for an action
-                Book.display_results(results)
-                puts ""
-                puts "Is it one of the above?"
-                puts <<-TXT
+                if results == nil
+                    puts "\nGoogle is tripping, sorry! Try without the author, or a different term."
+                    puts ""
+                    action == 2
+                else
+                    Book.display_results(results)
+                    puts ""
+                    puts "Is it one of the above?"
+                    puts <<-TXT
     1. Yes
     2. No, search again
     3. No, exit
                 TXT
-                action = STDIN.gets.chomp.to_i
+                    action = STDIN.gets.chomp.to_i
+                end
                 if action == 1 #pick book and create instance then return book
                     book_index = Book.confirm_book(results) - 1 #ask the user to tell us which book is the right one (the number they indicated will be one higher than that books data index)
                     book = Book.create_from_api(results[book_index]) #create book instance based on the api data for the indicated book 
