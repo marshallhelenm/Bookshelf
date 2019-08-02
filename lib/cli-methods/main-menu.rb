@@ -11,8 +11,6 @@ def main_menu(active_user)
             exit!
         elsif action == 7
             thing = "log out"
-        elsif thing == false
-            STDIN.gets.chomp
         end
     end
     thing

@@ -26,50 +26,28 @@ def stats_menu_action(action, active_user)
     case action
     when 1 #last book on the read books shelf
         most_recently_read(active_user)
-        STDIN.gets.chomp
-        puts`clear`
     when 2
         most_popular_book
-        STDIN.gets.chomp
-        puts`clear`
     when 3
         most_popular_author
-        STDIN.gets.chomp
-        puts`clear`
     when 4 # count all of this user's books
         count_my_books(active_user)
-        STDIN.gets.chomp
-        puts`clear`
     when 5 # Count books on a shelf
         shelf_choice = choose_shelf(active_user)
         my_read_count(shelf_choice)
-        STDIN.gets.chomp
-        puts`clear`
     when 6 #get average number of books / shelf for a user
         my_average_shelf_count(active_user)
-        STDIN.gets.chomp
-        puts`clear`
     when 7 # all the authors in the user's shelves
         my_authors(active_user)
-        STDIN.gets.chomp
-        puts`clear`
     when 8 #
         shelf_choice = choose_shelf(active_user)
         authors_on_shelf(shelf_choice)
-        STDIN.gets.chomp
-        puts`clear`
     when 9
         list_all_my_books(active_user)
-        STDIN.gets.chomp
-        puts`clear`
     when 10
-        STDIN.gets.chomp
-        puts`clear`
         return
     else
         unknown_command
-        STDIN.gets.chomp
-        puts`clear`
     end
 end
 
@@ -158,7 +136,7 @@ def my_authors(active_user)  # should this also list the shelf name each author 
     else
         author_names = active_user.books.collect do |book|
             book.author.name
-        end
+        end.uniq
         puts "\nAuthors:\n"
         author_names.each_with_index do |author, index|
             puts "  #{index +1 }. #{author}"

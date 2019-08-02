@@ -31,6 +31,7 @@ def menu_four_perform(action, active_user)
         puts "Your shelves:\n"
         print_shelf_list(active_user)
     when 3 #modify a shelf
+        puts `clear`
         shelf_options(active_user)
     when 4
         return to_menu = true
