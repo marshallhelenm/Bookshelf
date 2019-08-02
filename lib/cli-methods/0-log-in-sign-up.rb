@@ -37,7 +37,19 @@ def log_in
         if active_user #if it's truthy, that is
             logged_in = true
             puts `clear`
-            puts "\nWelcome #{username}!"
+            puts <<-TXT
+
+              __...--~~~~~-._   _.-~~~~~--...__
+            //               `V'               \\\\
+           //                 |                 \\\\
+          //__...--~~~~~~-._  |  _.-~~~~~~--...__\\\\
+         //__.....----~~~~._\\ | /_.~~~~----.....__\\\\
+        ====================\\\\|//====================
+                            `---`
+                
+                        Welcome #{username}!
+                   
+                   TXT
             return active_user
         else
             puts <<-TXT 
@@ -82,7 +94,19 @@ def sign_up
                 read = Shelf.create(name: "My Read Books")
                 active_user.shelves << wishlist << read
                 active_user.save
-                puts "\n\nWelcome, #{username}! Your account has been created.\n"
+                puts <<-TXT
+                
+                  __...--~~~~~-._   _.-~~~~~--...__
+                //               `V'               \\\\
+               //                 |                 \\\\
+              //__...--~~~~~~-._  |  _.-~~~~~~--...__\\\\
+             //__.....----~~~~._\\ | /_.~~~~----.....__\\\\
+            ====================\\\\|//====================
+                                `---`                
+                
+            Welcome, #{username}! Your account has been created.
+
+        TXT
                 STDIN.gets.chomp
             end
         end
