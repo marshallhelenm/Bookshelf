@@ -75,6 +75,7 @@ def choose_shelf(active_user) #this method returns a shelf instance
     puts "\nChoose a shelf"
     print_shelf_list(active_user)
     action = STDIN.gets.chomp.to_i
+    unknown_command if action > active_user.shelves.length + 1
     shelf_choice = active_user.shelves[action - 1]
 end
 
