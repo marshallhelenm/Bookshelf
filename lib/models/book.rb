@@ -74,7 +74,6 @@ class Book < ActiveRecord::Base
                 title = STDIN.gets.chomp
                 puts "Please enter the author (or hit enter to skip):"
                 author = STDIN.gets.chomp
-                binding.pry
             if title == "" && author == ""
                 puts "\nPlease enter at least one search value!"
                 puts ""

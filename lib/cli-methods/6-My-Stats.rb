@@ -123,9 +123,9 @@ def my_average_shelf_count(active_user)
     if active_user.books.empty?
         puts "\nYou have not yet saved any books in the Bookshelf™ database.\n"
     else
-        average = active_user.shelves.collect do |shelf|
+        average = (active_user.shelves.collect do |shelf|
             shelf.books.length
-        end.sum / (active_user.shelves.length * 1.0)
+        end.sum / (active_user.shelves.length * 1.0)).round(2)
         puts "\nYou have an average of #{average} book(s) per shelf in the Bookshelf™ database.\n"
     end
 end
