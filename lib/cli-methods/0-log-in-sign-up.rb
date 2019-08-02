@@ -106,6 +106,7 @@ def welcome
 end
 
 def goodbye
+    puts `clear`
 puts <<-BYE
                 ______ ______
               _/      Y      \\\_
