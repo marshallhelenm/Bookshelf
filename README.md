@@ -1,3 +1,24 @@
+
+# Bookshelf App
+
+Bookshelf helps users keep track of their books! 
+
+Bookshelf features include:
+* User login / signup screen
+* Automatic creation of Wishlist and Read Books shelves
+* Name and create custom shelves to store books
+* Search new books in the database or using the Google Books API
+* Remove books from a shelf
+* Delete a shelf
+* Rename and edit the description of an existing shelf
+* Get various stats about your shelves and books
+
+
+
+
+
+
+
 # Module One Final Project Guidelines
 
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
