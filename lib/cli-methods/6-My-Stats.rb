@@ -6,8 +6,8 @@ def stats_menu_options
     What would you like to do?
 
     1. View most recently read book
-    2. View most popular book in Bookshelf database
-    3. View most popular author in Bookshelf database
+    2. View most popular book in Bookshelf Database
+    3. View most popular author in Bookshelf Database
     4. Count my total books
     5. Count books on a shelf
     6. My average number of books per shelf
@@ -26,28 +26,50 @@ def stats_menu_action(action, active_user)
     case action
     when 1 #last book on the read books shelf
         most_recently_read(active_user)
+        STDIN.gets.chomp
+        puts`clear`
     when 2
         most_popular_book
+        STDIN.gets.chomp
+        puts`clear`
     when 3
         most_popular_author
+        STDIN.gets.chomp
+        puts`clear`
     when 4 # count all of this user's books
         count_my_books(active_user)
+        STDIN.gets.chomp
+        puts`clear`
     when 5 # Count books on a shelf
         shelf_choice = choose_shelf(active_user)
         my_read_count(shelf_choice)
+        STDIN.gets.chomp
+        puts`clear`
     when 6 #get average number of books / shelf for a user
         my_average_shelf_count(active_user)
+        STDIN.gets.chomp
+        puts`clear`
     when 7 # all the authors in the user's shelves
         my_authors(active_user)
+        STDIN.gets.chomp
+        puts`clear`
     when 8 #
         shelf_choice = choose_shelf(active_user)
         authors_on_shelf(shelf_choice)
+        STDIN.gets.chomp
+        puts`clear`
     when 9
         list_all_my_books(active_user)
+        STDIN.gets.chomp
+        puts`clear`
     when 10
+        STDIN.gets.chomp
+        puts`clear`
         return
     else
         unknown_command
+        STDIN.gets.chomp
+        puts`clear`
     end
 end
 
@@ -86,7 +108,7 @@ def most_popular_book
     most_pop = book_count_hash.max_by do |book, count|
         count
     end
-    puts "\nThe most popular book in the Bookshelf™ is #{most_pop[0].title} by #{most_pop[0].author.name}.\n"
+    puts "\nThe most popular book in the Bookshelf™ Database is #{most_pop[0].title} by #{most_pop[0].author.name}.\n"
 end
 
 def most_popular_author
@@ -113,26 +135,26 @@ end
 
 def count_my_books(active_user)
     if active_user.books.empty?
-        puts "\nYou have not yet saved any books in the Bookshelf™ database.\n"
+        puts "\nYou have not yet saved any books in the Bookshelf™ Database.\n"
     else
-        puts "\nYou have a total of #{active_user.books.uniq.length} books saved in the Bookshelf™ database.\n"
+        puts "\nYou have a total of #{active_user.books.uniq.length} books saved in the Bookshelf™ Database.\n"
     end
 end
 
 def my_average_shelf_count(active_user)
     if active_user.books.empty?
-        puts "\nYou have not yet saved any books in the Bookshelf™ database.\n"
+        puts "\nYou have not yet saved any books in the Bookshelf™ Database.\n"
     else
         average = (active_user.shelves.collect do |shelf|
             shelf.books.length
         end.sum / (active_user.shelves.length * 1.0)).round(2)
-        puts "\nYou have an average of #{average} book(s) per shelf in the Bookshelf™ database.\n"
+        puts "\nYou have an average of #{average} book(s) per shelf in the Bookshelf™ Database.\n"
     end
 end
 
 def my_authors(active_user)  # should this also list the shelf name each author is on?
     if active_user.books.empty?
-        puts "\nYou have not yet saved any books in the Bookshelf™ database.\n\n"
+        puts "\nYou have not yet saved any books in the Bookshelf™ Database.\n\n"
     else
         author_names = active_user.books.collect do |book|
             book.author.name
